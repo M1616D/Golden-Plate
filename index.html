@@ -1,0 +1,3752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Golden Plate Restaurant | Premium Dining in Addis Ababa, Bole</title>
+    <meta name="description" content="Golden Plate Restaurant in Bole, Addis Ababa offers exceptional western cuisine with Ethiopian hospitality. Enjoy grilled steaks, signature dishes, and impeccable service." />
+    <link rel="canonical" href="https://goldenplate.com" />
+    <meta property="og:title" content="Golden Plate Restaurant | Premium Dining in Addis Ababa" />
+    <meta property="og:description" content="Experience exceptional western cuisine with Ethiopian hospitality at Golden Plate Restaurant in Bole, Addis Ababa." />
+    <meta property="og:type" content="restaurant" />
+    <meta property="og:image" content="images/front.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Restaurant",
+            "name": "Golden Plate Restaurant",
+            "image": "images/front.jpg",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Abssinia Building, Cameroon Street",
+                "addressLocality": "Addis Ababa",
+                "addressCountry": "ET"
+            },
+            "telephone": "+251975745252",
+            "openingHours": "Mo-Su 07:00-23:00",
+            "servesCuisine": ["Western", "Ethiopian", "International"],
+            "priceRange": "$$",
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.5",
+                "reviewCount": "288"
+            }
+        }
+    </script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+    <style>
+        /* ===== CSS Variables ===== */
+        :root {
+            --gold: #C9A84C;
+            --gold-light: #D4AF37;
+            --gold-pale: #E8D5A3;
+            --gold-glow: rgba(201, 168, 76, 0.35);
+            --gold-glow-strong: rgba(201, 168, 76, 0.55);
+            --black: #0A0A0A;
+            --black-soft: #1A1A1A;
+            --charcoal: #2A2A2A;
+            --charcoal-light: #3A3A3A;
+            --cream: #EDE8DF;
+            --cream-light: #F5F0EB;
+            --white: #F8F6F1;
+            --white-pure: #FFFFFF;
+            --glass-bg: rgba(255, 255, 255, 0.06);
+            --glass-border: rgba(255, 255, 255, 0.10);
+            --shadow-soft: 0 20px 60px rgba(0, 0, 0, 0.5);
+            --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --shadow-gold: 0 0 40px rgba(201, 168, 76, 0.12), 0 12px 48px rgba(0, 0, 0, 0.5);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --transition: 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Inter', sans-serif;
+        }
+
+        /* ===== Reset & Base ===== */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--black);
+            color: var(--cream);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 20px;
+            }
+        }
+
+        /* ===== Scrollbar ===== */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--black);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gold-light);
+        }
+
+        /* ===== Scroll Progress ===== */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            z-index: 10000;
+            width: 0%;
+            transition: width 0.1s;
+            box-shadow: 0 0 20px var(--gold-glow);
+        }
+
+        /* ===== Loading Screen ===== */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: var(--black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        #loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-ring {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(201, 168, 76, 0.1);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            box-shadow: 0 0 30px var(--gold-glow);
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ===== Navigation ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 9999;
+            padding: 20px 0;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            background: transparent;
+        }
+
+        .navbar.scrolled {
+            background: rgba(10, 10, 10, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 14px 0;
+            box-shadow: 0 4px 40px rgba(0, 0, 0, 0.6);
+            border-bottom: 1px solid rgba(201, 168, 76, 0.08);
+        }
+
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-family: var(--font-serif);
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--white-pure);
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            color: var(--gold);
+        }
+
+        .logo-icon {
+            font-size: 30px;
+            line-height: 1;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            color: rgba(255, 255, 255, 0.75);
+            transition: color 0.3s;
+            position: relative;
+            padding: 4px 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 0 12px var(--gold-glow);
+        }
+
+        .nav-links a:hover {
+            color: var(--white-pure);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            background: var(--gold);
+            color: var(--black) !important;
+            padding: 10px 24px !important;
+            border-radius: 50px;
+            font-weight: 600 !important;
+            transition: all 0.3s !important;
+            box-shadow: 0 0 20px transparent;
+        }
+
+        .nav-cta::after {
+            display: none !important;
+        }
+
+        .nav-cta:hover {
+            background: var(--gold-light) !important;
+            transform: scale(1.04);
+            color: var(--black) !important;
+            box-shadow: 0 0 40px var(--gold-glow) !important;
+        }
+
+        @media (max-width: 1024px) {
+            .nav-links {
+                gap: 20px;
+            }
+            .nav-links a {
+                font-size: 13px;
+            }
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 4px;
+            background: none;
+            border: none;
+        }
+
+        .menu-toggle span {
+            width: 28px;
+            height: 2px;
+            background: var(--white-pure);
+            transition: all 0.3s;
+            border-radius: 2px;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        @media (max-width: 992px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 380px;
+                height: 100vh;
+                background: rgba(10, 10, 10, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                justify-content: center;
+                gap: 24px;
+                padding: 40px;
+                transition: right 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                border-left: 1px solid rgba(201, 168, 76, 0.1);
+            }
+
+            .nav-links.open {
+                right: 0;
+            }
+
+            .nav-links a {
+                font-size: 20px;
+                color: var(--white-pure);
+            }
+
+            .nav-cta {
+                padding: 14px 32px !important;
+                text-align: center;
+            }
+        }
+
+        /* ===== Hero ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding: 120px 0 80px;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: url('images/front.jpg') center center / cover no-repeat;
+            z-index: 0;
+            transform: scale(1.05);
+            transition: transform 8s ease;
+        }
+
+        .hero:hover .hero-bg {
+            transform: scale(1);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(135deg,
+                    rgba(10, 10, 10, 0.78) 0%,
+                    rgba(10, 10, 10, 0.30) 50%,
+                    rgba(10, 10, 10, 0.72) 100%);
+            z-index: 1;
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+
+        .hero-content {
+            max-width: 720px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(201, 168, 76, 0.15);
+            border: 1px solid rgba(201, 168, 76, 0.25);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--gold);
+            letter-spacing: 0.5px;
+            margin-bottom: 28px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 30px var(--gold-glow);
+        }
+
+        .hero-badge .dot {
+            width: 8px;
+            height: 8px;
+            background: #4CAF50;
+            border-radius: 50%;
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(0.8);
+            }
+        }
+
+        .hero h1 {
+            font-family: var(--font-serif);
+            font-size: clamp(42px, 7vw, 80px);
+            font-weight: 700;
+            line-height: 1.05;
+            color: var(--white-pure);
+            margin-bottom: 20px;
+        }
+
+        .hero h1 .highlight {
+            color: var(--gold);
+            font-style: italic;
+            text-shadow: 0 0 40px var(--gold-glow);
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.75);
+            max-width: 520px;
+            line-height: 1.8;
+            margin-bottom: 36px;
+            font-weight: 300;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 38px;
+            background: var(--gold);
+            color: var(--black);
+            font-weight: 600;
+            border-radius: 50px;
+            font-size: 15px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 0 20px transparent;
+        }
+
+        .btn-primary:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(201, 168, 76, 0.3), 0 0 60px var(--gold-glow);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 38px;
+            background: transparent;
+            color: var(--white-pure);
+            font-weight: 500;
+            border-radius: 50px;
+            font-size: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--gold);
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px var(--gold-glow);
+        }
+
+        .hero-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            padding-top: 32px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .hero-stat {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .hero-stat .stars {
+            color: var(--gold);
+            font-size: 18px;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px var(--gold-glow);
+        }
+
+        .hero-stat .label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .hero-stat .value {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--white-pure);
+        }
+
+        .hero-stat .value small {
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: bounce-down 2.5s infinite;
+        }
+
+        @keyframes bounce-down {
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                transform: translateX(-50%) translateY(10px);
+            }
+        }
+
+        .scroll-indicator .line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), transparent);
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                min-height: 90vh;
+                padding: 100px 0 60px;
+            }
+            .hero h1 {
+                font-size: 34px;
+            }
+            .hero p {
+                font-size: 16px;
+            }
+            .hero-stats {
+                gap: 20px;
+            }
+            .hero-buttons .btn-primary,
+            .hero-buttons .btn-secondary {
+                padding: 14px 28px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 80px 0 40px;
+                min-height: 85vh;
+            }
+            .hero h1 {
+                font-size: 28px;
+            }
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            .hero-buttons .btn-primary,
+            .hero-buttons .btn-secondary {
+                width: 100%;
+                justify-content: center;
+                padding: 14px 20px;
+            }
+            .hero-stats {
+                gap: 14px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        /* ===== Section Titles ===== */
+        .section {
+            padding: 100px 0;
+        }
+
+        .section-label {
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 12px;
+            text-shadow: 0 0 20px var(--gold-glow);
+        }
+
+        .section-title {
+            font-family: var(--font-serif);
+            font-size: clamp(32px, 4.5vw, 52px);
+            font-weight: 700;
+            line-height: 1.1;
+            color: var(--white-pure);
+            margin-bottom: 16px;
+        }
+
+        .section-title .highlight {
+            color: var(--gold);
+            text-shadow: 0 0 30px var(--gold-glow);
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.55);
+            max-width: 560px;
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        .section-header {
+            margin-bottom: 56px;
+        }
+
+        .section-header.center {
+            text-align: center;
+        }
+
+        .section-header.center .section-subtitle {
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .section {
+                padding: 60px 0;
+            }
+            .section-title {
+                font-size: 28px;
+            }
+            .section-subtitle {
+                font-size: 16px;
+            }
+            .section-header {
+                margin-bottom: 36px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section {
+                padding: 40px 0;
+            }
+            .section-title {
+                font-size: 24px;
+            }
+        }
+
+        /* ===== About ===== */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-image {
+            border-radius: var(--radius);
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 4/3;
+            background: var(--charcoal);
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+            transition: box-shadow 0.6s ease;
+        }
+
+        .about-image:hover {
+            box-shadow: 0 0 60px var(--gold-glow), 0 0 80px rgba(0, 0, 0, 0.3);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+
+        .about-image:hover img {
+            transform: scale(1.03);
+        }
+
+        .about-image .badge {
+            position: absolute;
+            bottom: 24px;
+            right: 24px;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 16px 24px;
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(201, 168, 76, 0.2);
+            text-align: center;
+        }
+
+        .about-image .badge .number {
+            font-family: var(--font-serif);
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--gold);
+            display: block;
+            text-shadow: 0 0 20px var(--gold-glow);
+        }
+
+        .about-image .badge .label {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .about-text p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.9;
+            margin-bottom: 20px;
+            font-weight: 300;
+            font-size: 16px;
+        }
+
+        .about-text p strong {
+            color: var(--white-pure);
+            font-weight: 500;
+        }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 28px;
+        }
+
+        .about-feature {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .about-feature .icon {
+            color: var(--gold);
+            font-size: 18px;
+        }
+
+        @media (max-width: 992px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .about-image {
+                aspect-ratio: 16/10;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .about-image .badge {
+                bottom: 12px;
+                right: 12px;
+                padding: 10px 16px;
+            }
+            .about-image .badge .number {
+                font-size: 22px;
+            }
+            .about-image .badge .label {
+                font-size: 11px;
+            }
+            .about-features {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            .about-feature {
+                font-size: 13px;
+            }
+        }
+
+        /* ===== Why Choose Us ===== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius);
+            padding: 32px 24px;
+            text-align: center;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: var(--radius);
+            padding: 1px;
+            background: linear-gradient(135deg, transparent, rgba(201, 168, 76, 0.1), transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card:hover {
+            background: rgba(201, 168, 76, 0.05);
+            border-color: rgba(201, 168, 76, 0.15);
+            transform: translateY(-6px);
+            box-shadow: 0 0 40px var(--gold-glow), var(--shadow-soft);
+        }
+
+        .feature-card .icon {
+            font-size: 36px;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .feature-card h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--white-pure);
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        @media (max-width: 480px) {
+            .features-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 14px;
+            }
+            .feature-card {
+                padding: 20px 16px;
+            }
+            .feature-card .icon {
+                font-size: 28px;
+                margin-bottom: 10px;
+            }
+            .feature-card h4 {
+                font-size: 15px;
+            }
+            .feature-card p {
+                font-size: 12px;
+            }
+        }
+
+        /* ===== Menu ===== */
+        .menu-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 40px;
+            justify-content: center;
+        }
+
+        .menu-filter {
+            padding: 10px 28px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: transparent;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: var(--font-sans);
+        }
+
+        .menu-filter:hover,
+        .menu-filter.active {
+            background: var(--gold);
+            color: var(--black);
+            border-color: var(--gold);
+            box-shadow: 0 0 30px var(--gold-glow);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 28px;
+        }
+
+        .menu-item {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: var(--radius);
+            padding: 1px;
+            background: linear-gradient(135deg, transparent, rgba(201, 168, 76, 0.2), transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .menu-item:hover::before {
+            opacity: 1;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-8px);
+            border-color: rgba(201, 168, 76, 0.15);
+            box-shadow: 0 0 40px var(--gold-glow), var(--shadow-soft);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .menu-item-image {
+            aspect-ratio: 16 / 10;
+            overflow: hidden;
+            background: var(--charcoal);
+            position: relative;
+        }
+
+        .menu-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .menu-item:hover .menu-item-image img {
+            transform: scale(1.04);
+        }
+
+        .menu-item-image .badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            padding: 4px 14px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            z-index: 2;
+        }
+
+        .badge-popular {
+            background: var(--gold);
+            color: var(--black);
+            box-shadow: 0 0 20px var(--gold-glow);
+        }
+
+        .badge-new {
+            background: #4CAF50;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(76, 175, 80, 0.3);
+        }
+
+        .badge-chef {
+            background: #FF6B35;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+        }
+
+        .menu-item-body {
+            padding: 20px 24px 24px;
+        }
+
+        .menu-item-body .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 6px;
+        }
+
+        .menu-item-body h4 {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--white-pure);
+        }
+
+        .menu-item-body .desc {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.5;
+            font-weight: 300;
+            margin-top: 4px;
+        }
+
+        .menu-item-body .tags {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .menu-item-body .tag {
+            font-size: 11px;
+            padding: 2px 12px;
+            border-radius: 50px;
+            background: rgba(201, 168, 76, 0.10);
+            color: var(--gold-pale);
+            border: 1px solid rgba(201, 168, 76, 0.08);
+        }
+
+        @media (max-width: 768px) {
+            .menu-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+            }
+            .menu-item-body {
+                padding: 14px 16px 16px;
+            }
+            .menu-item-body h4 {
+                font-size: 15px;
+            }
+            .menu-item-body .desc {
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .menu-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            .menu-filters {
+                gap: 8px;
+            }
+            .menu-filter {
+                padding: 8px 18px;
+                font-size: 12px;
+            }
+        }
+
+        /* ===== Full Menu Showcase ===== */
+        .full-menu-showcase {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .full-menu-card {
+            border-radius: var(--radius);
+            overflow: hidden;
+            background: var(--charcoal);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .full-menu-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(201, 168, 76, 0.15);
+            box-shadow: 0 0 40px var(--gold-glow), var(--shadow-soft);
+        }
+
+        .full-menu-card img {
+            width: 100%;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .full-menu-card:hover img {
+            transform: scale(1.02);
+        }
+
+        .full-menu-card .label {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(201, 168, 76, 0.15);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--white-pure);
+        }
+
+        .full-menu-card .label span {
+            color: var(--gold);
+        }
+
+        @media (max-width: 768px) {
+            .full-menu-showcase {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                margin-top: 40px;
+            }
+            .full-menu-card .label {
+                font-size: 12px;
+                padding: 8px 16px;
+                bottom: 12px;
+                left: 12px;
+            }
+        }
+
+        /* ===== Dish Gallery ===== */
+        .dish-gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .dish-gallery-grid .item {
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            aspect-ratio: 1;
+            background: var(--charcoal);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: scale(0.92);
+            animation: galleryFadeIn 0.6s ease forwards;
+        }
+
+        .dish-gallery-grid .item:nth-child(1) { animation-delay: 0.05s; }
+        .dish-gallery-grid .item:nth-child(2) { animation-delay: 0.10s; }
+        .dish-gallery-grid .item:nth-child(3) { animation-delay: 0.15s; }
+        .dish-gallery-grid .item:nth-child(4) { animation-delay: 0.20s; }
+        .dish-gallery-grid .item:nth-child(5) { animation-delay: 0.25s; }
+        .dish-gallery-grid .item:nth-child(6) { animation-delay: 0.30s; }
+        .dish-gallery-grid .item:nth-child(7) { animation-delay: 0.35s; }
+        .dish-gallery-grid .item:nth-child(8) { animation-delay: 0.40s; }
+
+        @keyframes galleryFadeIn {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .dish-gallery-grid .item:hover {
+            transform: scale(1.03);
+            z-index: 2;
+            box-shadow: 0 0 40px var(--gold-glow), var(--shadow-soft);
+        }
+
+        .dish-gallery-grid .item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .dish-gallery-grid .item:hover img {
+            transform: scale(1.08);
+        }
+
+        .dish-gallery-grid .item .overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            display: flex;
+            align-items: flex-end;
+            padding: 16px;
+        }
+
+        .dish-gallery-grid .item:hover .overlay {
+            opacity: 1;
+        }
+
+        .dish-gallery-grid .item .overlay span {
+            color: #fff;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            background: rgba(201, 168, 76, 0.2);
+            padding: 4px 14px;
+            border-radius: 50px;
+            border: 1px solid rgba(201, 168, 76, 0.15);
+            backdrop-filter: blur(4px);
+        }
+
+        .dish-gallery-grid .item.hidden-item {
+            display: none;
+        }
+
+        .dish-gallery-grid .item.hidden-item.revealed {
+            display: block;
+            animation: galleryFadeIn 0.6s ease forwards;
+        }
+
+        .dish-gallery-grid .item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+        .dish-gallery-grid .item:nth-child(6) { grid-column: span 2; }
+
+        @media (max-width: 768px) {
+            .dish-gallery-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+            .dish-gallery-grid .item:nth-child(1) { grid-column: span 2; grid-row: span 1; }
+            .dish-gallery-grid .item:nth-child(6) { grid-column: span 2; }
+            .dish-gallery-grid .item .overlay span { font-size: 11px; padding: 3px 10px; }
+        }
+
+        @media (max-width: 480px) {
+            .dish-gallery-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+            .dish-gallery-grid .item:nth-child(1) { grid-column: span 2; grid-row: span 1; }
+            .dish-gallery-grid .item:nth-child(6) { grid-column: span 2; }
+            .dish-gallery-grid .item .overlay { padding: 8px; }
+            .dish-gallery-grid .item .overlay span { font-size: 10px; padding: 2px 8px; }
+        }
+
+        /* ===== Restaurant Gallery ===== */
+        .restaurant-gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .restaurant-gallery-grid .item {
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            aspect-ratio: 1;
+            background: var(--charcoal);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: scale(0.92);
+            animation: galleryFadeIn 0.6s ease forwards;
+        }
+
+        .restaurant-gallery-grid .item:nth-child(1) { animation-delay: 0.05s; }
+        .restaurant-gallery-grid .item:nth-child(2) { animation-delay: 0.10s; }
+        .restaurant-gallery-grid .item:nth-child(3) { animation-delay: 0.15s; }
+        .restaurant-gallery-grid .item:nth-child(4) { animation-delay: 0.20s; }
+        .restaurant-gallery-grid .item:nth-child(5) { animation-delay: 0.25s; }
+        .restaurant-gallery-grid .item:nth-child(6) { animation-delay: 0.30s; }
+        .restaurant-gallery-grid .item:nth-child(7) { animation-delay: 0.35s; }
+        .restaurant-gallery-grid .item:nth-child(8) { animation-delay: 0.40s; }
+        .restaurant-gallery-grid .item:nth-child(9) { animation-delay: 0.45s; }
+
+        .restaurant-gallery-grid .item:hover {
+            transform: scale(1.03);
+            z-index: 2;
+            box-shadow: 0 0 40px var(--gold-glow), var(--shadow-soft);
+        }
+
+        .restaurant-gallery-grid .item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .restaurant-gallery-grid .item:hover img {
+            transform: scale(1.08);
+        }
+
+        .restaurant-gallery-grid .item .overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            display: flex;
+            align-items: flex-end;
+            padding: 16px;
+        }
+
+        .restaurant-gallery-grid .item:hover .overlay {
+            opacity: 1;
+        }
+
+        .restaurant-gallery-grid .item .overlay span {
+            color: #fff;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            background: rgba(201, 168, 76, 0.2);
+            padding: 4px 14px;
+            border-radius: 50px;
+            border: 1px solid rgba(201, 168, 76, 0.15);
+            backdrop-filter: blur(4px);
+        }
+
+        .restaurant-gallery-grid .item.hidden-item {
+            display: none;
+        }
+
+        .restaurant-gallery-grid .item.hidden-item.revealed {
+            display: block;
+            animation: galleryFadeIn 0.6s ease forwards;
+        }
+
+        .restaurant-gallery-grid .item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+        .restaurant-gallery-grid .item:nth-child(6) { grid-column: span 2; }
+
+        @media (max-width: 768px) {
+            .restaurant-gallery-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+            .restaurant-gallery-grid .item:nth-child(1) { grid-column: span 2; grid-row: span 1; }
+            .restaurant-gallery-grid .item:nth-child(6) { grid-column: span 2; }
+            .restaurant-gallery-grid .item .overlay span { font-size: 11px; padding: 3px 10px; }
+        }
+
+        @media (max-width: 480px) {
+            .restaurant-gallery-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+            .restaurant-gallery-grid .item:nth-child(1) { grid-column: span 2; grid-row: span 1; }
+            .restaurant-gallery-grid .item:nth-child(6) { grid-column: span 2; }
+            .restaurant-gallery-grid .item .overlay { padding: 8px; }
+            .restaurant-gallery-grid .item .overlay span { font-size: 10px; padding: 2px 8px; }
+        }
+
+        /* ===== Video Gallery ===== */
+        .video-gallery-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .video-item {
+            flex: 0 0 calc(33.333% - 14px);
+            min-width: 200px;
+            max-width: 380px;
+            height: 260px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            background: var(--charcoal);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.5s ease;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+        }
+
+        .video-item::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: var(--radius);
+            padding: 1px;
+            background: linear-gradient(135deg, transparent, rgba(201, 168, 76, 0.25), transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .video-item:hover::before {
+            opacity: 1;
+        }
+
+        .video-item:hover {
+            transform: translateY(-6px) scale(1.01);
+            border-color: rgba(201, 168, 76, 0.15);
+            box-shadow: 0 0 50px var(--gold-glow), var(--shadow-soft);
+        }
+
+        .video-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .video-item .play-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s ease;
+            z-index: 1;
+        }
+
+        .video-item:hover .play-overlay {
+            background: rgba(0, 0, 0, 0.15);
+        }
+
+        .video-item .play-overlay .play-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: rgba(201, 168, 76, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: #000;
+            transition: all 0.4s ease;
+            border: 2px solid rgba(255,255,255,0.15);
+            box-shadow: 0 0 30px var(--gold-glow);
+            text-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        .video-item:hover .play-overlay .play-btn {
+            transform: scale(1.12);
+            background: var(--gold-light);
+            box-shadow: 0 0 60px var(--gold-glow-strong);
+        }
+
+        .video-item .video-label {
+            position: absolute;
+            bottom: 14px;
+            left: 14px;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            padding: 5px 16px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #fff;
+            border: 1px solid rgba(201, 168, 76, 0.1);
+            z-index: 3;
+            letter-spacing: 0.3px;
+        }
+
+        @media (max-width: 992px) {
+            .video-item {
+                flex: 0 0 calc(50% - 10px);
+                height: 220px;
+                min-width: 160px;
+                max-width: 340px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .video-item {
+                flex: 0 0 100%;
+                height: 200px;
+                max-width: 400px;
+            }
+            .video-item .play-overlay .play-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 22px;
+            }
+            .video-item .video-label {
+                font-size: 10px;
+                padding: 3px 12px;
+                bottom: 10px;
+                left: 10px;
+            }
+        }
+
+        /* ===== Explore More Button ===== */
+        .gallery-explore {
+            text-align: center;
+            margin-top: 36px;
+        }
+
+        .gallery-explore .btn-explore {
+            padding: 14px 48px;
+            border-radius: 50px;
+            border: 1px solid rgba(201, 168, 76, 0.3);
+            background: transparent;
+            color: var(--gold);
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            font-family: var(--font-sans);
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gallery-explore .btn-explore::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(201, 168, 76, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .gallery-explore .btn-explore:hover {
+            background: var(--gold);
+            color: var(--black);
+            border-color: var(--gold);
+            transform: translateY(-2px);
+            box-shadow: 0 0 50px var(--gold-glow);
+        }
+
+        .gallery-explore .btn-explore:hover::before {
+            opacity: 1;
+        }
+
+        .gallery-explore .btn-explore:active {
+            transform: scale(0.96);
+        }
+
+        @media (max-width: 480px) {
+            .gallery-explore .btn-explore {
+                padding: 12px 32px;
+                font-size: 13px;
+            }
+        }
+
+        /* ===== Testimonials ===== */
+        .testimonials-slider {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 28px;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius);
+            padding: 32px;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: var(--radius);
+            padding: 1px;
+            background: linear-gradient(135deg, transparent, rgba(201, 168, 76, 0.1), transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        .testimonial-card:hover::before {
+            opacity: 1;
+        }
+
+        .testimonial-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(201, 168, 76, 0.10);
+            transform: translateY(-4px);
+            box-shadow: 0 0 30px var(--gold-glow);
+        }
+
+        .testimonial-card .stars {
+            color: var(--gold);
+            font-size: 16px;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            text-shadow: 0 0 20px var(--gold-glow);
+        }
+
+        .testimonial-card blockquote {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+            font-weight: 300;
+            font-style: italic;
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 6;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .testimonial-card blockquote.expanded {
+            -webkit-line-clamp: unset;
+            overflow: visible;
+        }
+
+        .testimonial-card .read-more {
+            display: inline-block;
+            color: var(--gold);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-bottom: 12px;
+            transition: color 0.3s;
+        }
+
+        .testimonial-card .read-more:hover {
+            color: var(--gold-light);
+            text-shadow: 0 0 20px var(--gold-glow);
+        }
+
+        .testimonial-card .author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .testimonial-card .author .avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--gold);
+            color: var(--black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            flex-shrink: 0;
+            box-shadow: 0 0 20px var(--gold-glow);
+        }
+
+        .testimonial-card .author .name {
+            font-weight: 600;
+            color: var(--white-pure);
+            font-size: 15px;
+        }
+
+        .testimonial-card .author .detail {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        .testimonial-card .verified {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 12px;
+            font-size: 12px;
+            color: #4CAF50;
+            background: rgba(76, 175, 80, 0.10);
+            padding: 4px 14px;
+            border-radius: 50px;
+            border: 1px solid rgba(76, 175, 80, 0.10);
+        }
+
+        @media (max-width: 480px) {
+            .testimonials-slider {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            .testimonial-card {
+                padding: 20px;
+            }
+            .testimonial-card blockquote {
+                font-size: 14px;
+                -webkit-line-clamp: 4;
+            }
+        }
+
+        /* ===== Reservation ===== */
+        .reservation-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .reservation-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .reservation-form .full {
+            grid-column: span 2;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-sm);
+            color: var(--white-pure);
+            font-size: 15px;
+            font-family: var(--font-sans);
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--gold);
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.05), 0 0 30px var(--gold-glow);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .form-group select option {
+            background: var(--black);
+            color: var(--white-pure);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .reservation-info {
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: var(--radius);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.4s ease;
+        }
+
+        .reservation-info:hover {
+            border-color: rgba(201, 168, 76, 0.10);
+            box-shadow: 0 0 30px var(--gold-glow);
+        }
+
+        .reservation-info h4 {
+            font-family: var(--font-serif);
+            font-size: 24px;
+            color: var(--white-pure);
+            margin-bottom: 12px;
+        }
+
+        .reservation-info p {
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.7;
+            font-weight: 300;
+            margin-bottom: 24px;
+        }
+
+        .reservation-info .detail {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .reservation-info .detail:last-child {
+            border-bottom: none;
+        }
+
+        .reservation-info .detail .icon {
+            font-size: 20px;
+            width: 36px;
+            text-align: center;
+            color: var(--gold);
+        }
+
+        .reservation-info .detail .text {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .reservation-info .detail .text strong {
+            color: var(--white-pure);
+            font-weight: 500;
+        }
+
+        @media (max-width: 992px) {
+            .reservation-wrapper {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .reservation-form {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+            .reservation-form .full {
+                grid-column: span 1;
+            }
+            .reservation-info {
+                padding: 24px 20px;
+            }
+            .reservation-info h4 {
+                font-size: 20px;
+            }
+        }
+
+        /* ===== Location ===== */
+        .location-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .location-map {
+            border-radius: var(--radius);
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            background: var(--charcoal);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            transition: box-shadow 0.4s ease;
+        }
+
+        .location-map:hover {
+            box-shadow: 0 0 40px var(--gold-glow);
+        }
+
+        .location-map iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .location-details {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .location-detail {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.3s;
+        }
+
+        .location-detail:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(201, 168, 76, 0.10);
+            box-shadow: 0 0 20px var(--gold-glow);
+        }
+
+        .location-detail .icon {
+            font-size: 22px;
+            width: 40px;
+            text-align: center;
+            color: var(--gold);
+            flex-shrink: 0;
+        }
+
+        .location-detail .content h5 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--white-pure);
+            margin-bottom: 2px;
+        }
+
+        .location-detail .content p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.5;
+            font-weight: 300;
+        }
+
+        .location-detail .content a {
+            color: var(--gold);
+            transition: color 0.3s;
+        }
+
+        .location-detail .content a:hover {
+            color: var(--gold-light);
+            text-shadow: 0 0 20px var(--gold-glow);
+        }
+
+        @media (max-width: 992px) {
+            .location-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .location-map {
+                aspect-ratio: 16/9;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .location-detail {
+                padding: 12px 14px;
+                gap: 12px;
+            }
+            .location-detail .icon {
+                font-size: 18px;
+                width: 30px;
+            }
+            .location-detail .content h5 {
+                font-size: 14px;
+            }
+            .location-detail .content p {
+                font-size: 13px;
+            }
+        }
+
+        /* ===== Footer ===== */
+        .footer {
+            background: var(--black-soft);
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 60px 0 30px;
+            margin-top: 40px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .footer-brand .logo {
+            margin-bottom: 16px;
+        }
+
+        .footer-brand p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.4);
+            line-height: 1.7;
+            max-width: 320px;
+            font-weight: 300;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .footer-social a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.04);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .footer-social a:hover {
+            background: var(--gold);
+            color: var(--black);
+            border-color: var(--gold);
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px var(--gold-glow);
+        }
+
+        .footer-col h5 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--white-pure);
+            margin-bottom: 16px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-col ul a {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.4);
+            transition: color 0.3s;
+            font-weight: 300;
+        }
+
+        .footer-col ul a:hover {
+            color: var(--gold);
+            text-shadow: 0 0 20px var(--gold-glow);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 24px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .footer-bottom a {
+            color: rgba(255, 255, 255, 0.3);
+            transition: color 0.3s;
+        }
+
+        .footer-bottom a:hover {
+            color: var(--gold);
+        }
+
+        .footer-bottom .links {
+            display: flex;
+            gap: 24px;
+        }
+
+        @media (max-width: 992px) {
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 32px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            .footer {
+                padding: 40px 0 20px;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+                padding-top: 16px;
+            }
+            .footer-bottom .links {
+                gap: 16px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        /* ===== Floating Buttons ===== */
+        .floating-btn {
+            position: fixed;
+            z-index: 9998;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            color: #fff;
+        }
+
+        .floating-btn:hover {
+            transform: scale(1.08);
+        }
+
+        .floating-reservation {
+            bottom: 100px;
+            right: 24px;
+            background: var(--gold);
+            color: var(--black);
+        }
+
+        .floating-reservation:hover {
+            background: var(--gold-light);
+            box-shadow: 0 0 40px var(--gold-glow);
+        }
+
+        .floating-tiktok {
+            bottom: 168px;
+            right: 24px;
+            background: #000000;
+            border: 2px solid #25F4EE;
+            font-size: 22px;
+        }
+
+        .floating-tiktok:hover {
+            background: #25F4EE;
+            color: #000;
+            border-color: #000;
+            box-shadow: 0 0 40px rgba(37, 244, 238, 0.3);
+        }
+
+        .floating-backtop {
+            bottom: 24px;
+            right: 24px;
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .floating-backtop.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .floating-backtop:hover {
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 30px var(--gold-glow);
+        }
+
+        @media (max-width: 768px) {
+            .floating-reservation,
+            .floating-tiktok,
+            .floating-backtop {
+                width: 48px;
+                height: 48px;
+                font-size: 20px;
+            }
+
+            .floating-reservation {
+                bottom: 80px;
+                right: 16px;
+            }
+
+            .floating-tiktok {
+                bottom: 140px;
+                right: 16px;
+            }
+
+            .floating-backtop {
+                bottom: 16px;
+                right: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .floating-reservation,
+            .floating-tiktok,
+            .floating-backtop {
+                width: 42px;
+                height: 42px;
+                font-size: 17px;
+            }
+            .floating-reservation {
+                bottom: 70px;
+                right: 12px;
+            }
+            .floating-tiktok {
+                bottom: 122px;
+                right: 12px;
+            }
+            .floating-backtop {
+                bottom: 12px;
+                right: 12px;
+            }
+        }
+
+        /* ===== Toast ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(201, 168, 76, 0.2);
+            padding: 16px 32px;
+            border-radius: var(--radius-sm);
+            color: var(--white-pure);
+            font-size: 15px;
+            z-index: 99999;
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            text-align: center;
+            max-width: 90%;
+            box-shadow: 0 0 40px var(--gold-glow), var(--shadow-soft);
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast .check {
+            color: #4CAF50;
+            margin-right: 10px;
+        }
+
+        @media (max-width: 480px) {
+            .toast {
+                padding: 12px 20px;
+                font-size: 13px;
+                bottom: 20px;
+                max-width: 95%;
+            }
+        }
+
+        /* ===== MODAL / POPUP for Menu Item ===== */
+        .menu-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+            padding: 40px;
+        }
+
+        .menu-modal.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .menu-modal-content {
+            background: var(--black-soft);
+            border-radius: var(--radius);
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid rgba(201, 168, 76, 0.10);
+            box-shadow: 0 0 80px var(--gold-glow), var(--shadow-soft);
+            transform: scale(0.92) translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            padding: 0;
+        }
+
+        .menu-modal.open .menu-modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .menu-modal-content .modal-img-wrapper {
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            overflow: hidden;
+            background: var(--charcoal);
+            border-radius: var(--radius) var(--radius) 0 0;
+        }
+
+        .menu-modal-content .modal-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .menu-modal-content .modal-body {
+            padding: 32px 36px 36px;
+        }
+
+        .menu-modal-content .modal-body h3 {
+            font-family: var(--font-serif);
+            font-size: 28px;
+            color: var(--white-pure);
+            margin-bottom: 8px;
+        }
+
+        .menu-modal-content .modal-body .modal-desc {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.7;
+            font-weight: 300;
+            margin-bottom: 16px;
+        }
+
+        .menu-modal-content .modal-body .modal-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .menu-modal-content .modal-body .modal-tags span {
+            font-size: 12px;
+            padding: 4px 16px;
+            border-radius: 50px;
+            background: rgba(201, 168, 76, 0.10);
+            color: var(--gold-pale);
+            border: 1px solid rgba(201, 168, 76, 0.08);
+        }
+
+        .menu-modal-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 22px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+
+        .menu-modal-close:hover {
+            background: rgba(201, 168, 76, 0.2);
+            transform: rotate(90deg);
+            border-color: var(--gold);
+        }
+
+        .menu-modal-content {
+            position: relative;
+        }
+
+        @media (max-width: 600px) {
+            .menu-modal {
+                padding: 16px;
+            }
+            .menu-modal-content .modal-body {
+                padding: 20px 18px 24px;
+            }
+            .menu-modal-content .modal-body h3 {
+                font-size: 22px;
+            }
+            .menu-modal-content .modal-body .modal-desc {
+                font-size: 14px;
+            }
+            .menu-modal-close {
+                width: 34px;
+                height: 34px;
+                font-size: 18px;
+                top: 10px;
+                right: 12px;
+            }
+        }
+
+        /* ===== Video Modal ===== */
+        .video-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            background: rgba(0, 0, 0, 0.94);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+            padding: 40px;
+        }
+
+        .video-modal.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .video-modal-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 85vh;
+            width: 100%;
+            background: var(--black-soft);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 0 80px var(--gold-glow), var(--shadow-soft);
+            border: 1px solid rgba(201, 168, 76, 0.10);
+            transform: scale(0.92) translateY(20px);
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .video-modal.open .video-modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .video-modal-content video {
+            width: 100%;
+            height: auto;
+            max-height: 80vh;
+            display: block;
+            background: #000;
+            border-radius: var(--radius) var(--radius) 0 0;
+        }
+
+        .video-modal-close {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #fff;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            font-size: 22px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            backdrop-filter: blur(8px);
+        }
+
+        .video-modal-close:hover {
+            background: rgba(201, 168, 76, 0.2);
+            transform: rotate(90deg) scale(1.1);
+            border-color: var(--gold);
+        }
+
+        @media (max-width: 600px) {
+            .video-modal {
+                padding: 16px;
+            }
+            .video-modal-content video {
+                max-height: 70vh;
+            }
+            .video-modal-close {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+                top: 10px;
+                right: 12px;
+            }
+        }
+
+        /* ===== Reveal Animations ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+        .reveal-delay-5 { transition-delay: 0.5s; }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== Loader ===== -->
+    <div id="loader">
+        <div class="loader-ring"></div>
+    </div>
+
+    <!-- ===== Scroll Progress ===== -->
+    <div id="scroll-progress"></div>
+
+    <!-- ===== Navigation ===== -->
+    <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+        <div class="container">
+            <a href="#" class="logo" aria-label="Golden Plate Restaurant Home">
+                <span class="logo-icon">✦</span>
+                Golden<span>Plate</span>
+            </a>
+
+            <ul class="nav-links" id="navLinks" role="menubar">
+                <li role="none"><a href="#about" role="menuitem">About</a></li>
+                <li role="none"><a href="#menu" role="menuitem">Menu</a></li>
+                <li role="none"><a href="#dish-gallery" role="menuitem">Dishes</a></li>
+                <li role="none"><a href="#restaurant-gallery" role="menuitem">Restaurant</a></li>
+                <li role="none"><a href="#video-gallery" role="menuitem">Videos</a></li>
+                <li role="none"><a href="#testimonials" role="menuitem">Reviews</a></li>
+                <li role="none"><a href="#reservation" role="menuitem" class="nav-cta">Reserve a Table</a></li>
+            </ul>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ===== Hero ===== -->
+    <section class="hero" id="hero" aria-label="Hero banner">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="dot"></span>
+                    Open Today · 7:00 AM – 11:00 PM
+                </div>
+
+                <h1>
+                    Where Ethiopian <span class="highlight">Hospitality</span><br />
+                    Meets Exceptional Dining
+                </h1>
+
+                <p>
+                    Experience the warmth of Ethiopian welcome and the finest
+                    western cuisine in Addis Ababa's vibrant Bole district.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="#reservation" class="btn-primary">
+                        Reserve a Table
+                        <span>→</span>
+                    </a>
+                    <a href="#menu" class="btn-secondary">
+                        View Menu
+                        <span>⌄</span>
+                    </a>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <span class="stars">★★★★★</span>
+                        <div>
+                            <div class="value">4.5 <small>/ 5</small></div>
+                            <div class="label">288+ Google Reviews</div>
+                        </div>
+                    </div>
+                    <div class="hero-stat">
+                        <div>
+                            <div class="value">7+ Years</div>
+                            <div class="label">Serving Addis Ababa</div>
+                        </div>
+                    </div>
+                    <div class="hero-stat">
+                        <div>
+                            <div class="value">⭐ <span style="color:var(--gold);">Michelin</span> Style</div>
+                            <div class="label">Premium Dining Experience</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="scroll-indicator" aria-hidden="true">
+            <span>Scroll</span>
+            <div class="line"></div>
+        </div>
+    </section>
+
+    <!-- ===== About ===== -->
+    <section class="section" id="about" aria-label="About Golden Plate Restaurant">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-image reveal">
+                    <img src="images/about.jpg" alt="Golden Plate Restaurant interior in Bole, Addis Ababa" loading="lazy" />
+                    <div class="badge">
+                        <span class="number">4.5 ★</span>
+                        <span class="label">288+ Google Reviews</span>
+                    </div>
+                </div>
+
+                <div class="about-text reveal reveal-delay-1">
+                    <div class="section-label">About Golden Plate</div>
+                    <h2 class="section-title">
+                        Where <span class="highlight">Excellence</span> Meets
+                        Ethiopian Warmth
+                    </h2>
+
+                    <p>
+                        Located in the heart of <strong>Bole</strong> at the
+                        <strong>Abssinia Building on Cameroon Street</strong>,
+                        Golden Plate Restaurant has established itself as a
+                        premier western dining destination in Addis Ababa.
+                        With a commitment to <strong>fresh ingredients</strong>
+                        and <strong>skilled preparation</strong>, we offer a
+                        diverse menu that blends classic favorites with
+                        contemporary creations.
+                    </p>
+
+                    <p>
+                        Our <strong>stylish and welcoming atmosphere</strong>
+                        makes us the perfect choice for family gatherings,
+                        celebrations, and casual meals alike.
+                        Whether you're joining us for lunch or dinner, our
+                        <strong>attentive staff</strong> ensures every guest
+                        feels valued and cared for.
+                    </p>
+
+                    <div class="about-features">
+                        <div class="about-feature">
+                            <span class="icon">✦</span>
+                            Premium Western Cuisine
+                        </div>
+                        <div class="about-feature">
+                            <span class="icon">✦</span>
+                            Ethiopian Hospitality
+                        </div>
+                        <div class="about-feature">
+                            <span class="icon">✦</span>
+                            Fresh Ingredients
+                        </div>
+                        <div class="about-feature">
+                            <span class="icon">✦</span>
+                            Relaxing Atmosphere
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Why Choose Us ===== -->
+    <section class="section" style="padding-top:0;" aria-label="Why choose Golden Plate">
+        <div class="container">
+            <div class="section-header center">
+                <div class="section-label">Why Golden Plate</div>
+                <h2 class="section-title">
+                    Crafted for <span class="highlight">Memorable</span> Moments
+                </h2>
+                <p class="section-subtitle">
+                    What our guests love most about dining with us.
+                </p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card reveal reveal-delay-1">
+                    <span class="icon">🍽️</span>
+                    <h4>Exceptional Service</h4>
+                    <p>Attentive staff who remember your preferences and make every visit special.</p>
+                </div>
+                <div class="feature-card reveal reveal-delay-2">
+                    <span class="icon">🌿</span>
+                    <h4>Fresh Ingredients</h4>
+                    <p>Skilled preparation with a focus on quality and flavor in every dish.</p>
+                </div>
+                <div class="feature-card reveal reveal-delay-3">
+                    <span class="icon">👨‍🍳</span>
+                    <h4>Expert Kitchen</h4>
+                    <p>Superb kitchen management and culinary excellence from our talented chefs.</p>
+                </div>
+                <div class="feature-card reveal reveal-delay-4">
+                    <span class="icon">📍</span>
+                    <h4>Prime Location</h4>
+                    <p>Conveniently located in Bole, Addis Ababa — easy to find and access.</p>
+                </div>
+                <div class="feature-card reveal reveal-delay-5">
+                    <span class="icon">🤝</span>
+                    <h4>Warm Hospitality</h4>
+                    <p>Ethiopian welcome that makes you feel at home from the moment you arrive.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Menu ===== -->
+    <section class="section" id="menu" style="background: rgba(255,255,255,0.01);" aria-label="Menu">
+        <div class="container">
+            <div class="section-header center">
+                <div class="section-label">Our Menu</div>
+                <h2 class="section-title">
+                    Signature <span class="highlight">Dishes</span>
+                </h2>
+                <p class="section-subtitle">
+                    Explore our curated selection of western and Ethiopian favorites.
+                </p>
+            </div>
+
+            <div class="menu-filters" role="tablist" aria-label="Filter menu by category">
+                <button class="menu-filter active" data-filter="all" role="tab" aria-selected="true">All</button>
+                <button class="menu-filter" data-filter="western" role="tab" aria-selected="false">Western</button>
+                <button class="menu-filter" data-filter="ethiopian" role="tab" aria-selected="false">Ethiopian</button>
+                <button class="menu-filter" data-filter="chef" role="tab" aria-selected="false">Chef's Picks</button>
+            </div>
+
+            <div class="menu-grid" id="menuGrid">
+                <!-- Rendered by JavaScript -->
+            </div>
+
+            <div class="full-menu-showcase">
+                <div class="full-menu-card reveal reveal-delay-2">
+                    <img src="images/12.jpg" alt="Golden Plate Food Menu" loading="lazy" />
+                    <div class="label">📖 <span>Food</span> Menu</div>
+                </div>
+                <div class="full-menu-card reveal reveal-delay-3">
+                    <img src="images/13.jpg" alt="Golden Plate Drink Menu" loading="lazy" />
+                    <div class="label">🍸 <span>Drink</span> Menu</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Dish Gallery ===== -->
+    <section class="section" id="dish-gallery" aria-label="Dish Gallery">
+        <div class="container">
+            <div class="section-header center">
+                <div class="section-label">Dish Gallery</div>
+                <h2 class="section-title">
+                    A Glimpse Into <span class="highlight">Golden Plate</span>
+                </h2>
+                <p class="section-subtitle">
+                    Explore our signature dishes and culinary creations.
+                </p>
+            </div>
+
+            <div class="dish-gallery-grid" id="dishGalleryGrid">
+                <!-- Rendered by JavaScript -->
+            </div>
+
+            <div class="gallery-explore">
+                <button class="btn-explore" id="exploreDishBtn">Explore More ✦</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Restaurant Gallery ===== -->
+    <section class="section" id="restaurant-gallery" style="background: rgba(255,255,255,0.01);" aria-label="Restaurant Gallery">
+        <div class="container">
+            <div class="section-header center">
+                <div class="section-label">Restaurant</div>
+                <h2 class="section-title">
+                    Inside <span class="highlight">Golden Plate</span>
+                </h2>
+                <p class="section-subtitle">
+                    Step inside our elegant space — from dining room to kitchen and team.
+                </p>
+            </div>
+
+            <div class="restaurant-gallery-grid" id="restaurantGalleryGrid">
+                <!-- Rendered by JavaScript -->
+            </div>
+
+            <div class="gallery-explore">
+                <button class="btn-explore" id="exploreRestaurantBtn">Explore More ✦</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Video Gallery ===== -->
+    <section class="section" id="video-gallery" style="background: rgba(255,255,255,0.01);" aria-label="Video Gallery">
+        <div class="container">
+            <div class="section-header center">
+                <div class="section-label">Videos</div>
+                <h2 class="section-title">
+                    Watch <span class="highlight">Golden Plate</span> in Action
+                </h2>
+                <p class="section-subtitle">
+                    Experience the atmosphere, our chefs, and the dining experience through video.
+                </p>
+            </div>
+
+            <div class="video-gallery-grid" id="videoGalleryGrid">
+                <!-- Rendered by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Testimonials ===== -->
+    <section class="section" id="testimonials" style="background: rgba(255,255,255,0.01);" aria-label="Guest reviews">
+        <div class="container">
+            <div class="section-header center">
+                <div class="section-label">Guest Reviews</div>
+                <h2 class="section-title">
+                    What Our <span class="highlight">Guests</span> Say
+                </h2>
+                <p class="section-subtitle">
+                    Real reviews from real guests who dined with us.
+                </p>
+            </div>
+
+            <div class="testimonials-slider" id="testimonialsGrid">
+                <!-- Rendered by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Reservation ===== -->
+    <section class="section" id="reservation" aria-label="Reservation">
+        <div class="container">
+            <div class="section-header center">
+                <div class="section-label">Reservations</div>
+                <h2 class="section-title">
+                    Secure Your <span class="highlight">Table</span>
+                </h2>
+                <p class="section-subtitle">
+                    Book your dining experience at Golden Plate Restaurant.
+                </p>
+            </div>
+
+            <div class="reservation-wrapper">
+                <div class="reservation-info reveal">
+                    <h4>✦ Plan Your Visit</h4>
+                    <p>
+                        We look forward to welcoming you. For same-day
+                        reservations, please call us directly.
+                    </p>
+
+                    <div class="detail">
+                        <span class="icon">📞</span>
+                        <div class="text">
+                            <strong>Phone:</strong>
+                            <a href="tel:+251975745252" style="color:var(--gold);">+251 97 574 5252</a>
+                        </div>
+                    </div>
+                    <div class="detail">
+                        <span class="icon">🕐</span>
+                        <div class="text">
+                            <strong>Hours:</strong> Monday–Sunday · 7:00 AM – 11:00 PM
+                        </div>
+                    </div>
+                    <div class="detail">
+                        <span class="icon">📍</span>
+                        <div class="text">
+                            <strong>Location:</strong> Abssinia Building, Cameroon St, Bole, Addis Ababa
+                        </div>
+                    </div>
+                    <div class="detail">
+                        <span class="icon">👥</span>
+                        <div class="text">
+                            <strong>Private Dining:</strong> Available for special occasions
+                        </div>
+                    </div>
+                </div>
+
+                <form class="reservation-form" id="reservationForm" novalidate>
+                    <div class="form-group">
+                        <label for="resName">Full Name</label>
+                        <input type="text" id="resName" placeholder="Your name" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="resEmail">Email</label>
+                        <input type="email" id="resEmail" placeholder="you@example.com" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="resPhone">Phone</label>
+                        <input type="tel" id="resPhone" placeholder="+251 9X XXX XXXX" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="resGuests">Guests</label>
+                        <select id="resGuests" required>
+                            <option value="">Select</option>
+                            <option value="1">1 Guest</option>
+                            <option value="2">2 Guests</option>
+                            <option value="3">3 Guests</option>
+                            <option value="4">4 Guests</option>
+                            <option value="5">5 Guests</option>
+                            <option value="6">6 Guests</option>
+                            <option value="7">7+ Guests</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="resDate">Date</label>
+                        <input type="date" id="resDate" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="resTime">Time</label>
+                        <input type="time" id="resTime" required />
+                    </div>
+                    <div class="form-group full">
+                        <label for="resNotes">Special Requests</label>
+                        <textarea id="resNotes" placeholder="Dietary needs, occasion, seating preferences..."></textarea>
+                    </div>
+                    <div class="form-group full">
+                        <button type="submit" class="btn-primary" style="width:100%;justify-content:center;">
+                            Reserve Your Table
+                            <span>→</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Location ===== -->
+    <section class="section" id="location" style="background: rgba(255,255,255,0.01);" aria-label="Location and hours">
+        <div class="container">
+            <div class="section-header center">
+                <div class="section-label">Visit Us</div>
+                <h2 class="section-title">
+                    Find <span class="highlight">Golden Plate</span>
+                </h2>
+                <p class="section-subtitle">
+                    Located in the heart of Bole, Addis Ababa.
+                </p>
+            </div>
+
+            <div class="location-grid">
+                <div class="location-map reveal">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3940.445!2d38.786!3d9.020!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b85a1b2b0b0b1%3A0x1a2b3c4d5e6f7890!2sGolden%20Plate%20Restaurant!5e0!3m2!1sen!2set!4v1700000000000"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="Golden Plate Restaurant location on Google Maps"
+                    ></iframe>
+                </div>
+
+                <div class="location-details">
+                    <div class="location-detail reveal reveal-delay-1">
+                        <span class="icon">📍</span>
+                        <div class="content">
+                            <h5>Address</h5>
+                            <p>Abssinia Building, Cameroon Street, Bole, Addis Ababa, Ethiopia</p>
+                            <p style="font-size:13px;color:rgba(255,255,255,0.3);margin-top:4px;">
+                                Located on the second floor, corner of the street
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="location-detail reveal reveal-delay-2">
+                        <span class="icon">📞</span>
+                        <div class="content">
+                            <h5>Contact</h5>
+                            <p>
+                                <a href="tel:+251975745252">+251 97 574 5252</a>
+                            </p>
+                            <p style="font-size:13px;color:rgba(255,255,255,0.3);">
+                                <a href="mailto:info@goldenplate.com">info@goldenplate.com</a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="location-detail reveal reveal-delay-3">
+                        <span class="icon">🕐</span>
+                        <div class="content">
+                            <h5>Opening Hours</h5>
+                            <p>Monday – Sunday: 7:00 AM – 11:00 PM</p>
+                        </div>
+                    </div>
+
+                    <div class="location-detail reveal reveal-delay-4">
+                        <span class="icon">🚗</span>
+                        <div class="content">
+                            <h5>Parking & Access</h5>
+                            <p>Street parking available. Conveniently located near Bole Medhanialem Church.</p>
+                        </div>
+                    </div>
+
+                    <a href="https://maps.app.goo.gl/fun5Nesx4hGMSdYX7" target="_blank" rel="noopener noreferrer" class="btn-primary" style="justify-content:center;width:100%;">
+                        Get Directions
+                        <span>→</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Footer ===== -->
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo" style="font-size:22px;">
+                        <span class="logo-icon">✦</span>
+                        Golden<span>Plate</span>
+                    </a>
+                    <p>
+                        Where Ethiopian hospitality meets exceptional dining.
+                        Premium western cuisine in the heart of Bole, Addis Ababa.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Instagram"><span>📷</span></a>
+                        <a href="#" aria-label="Facebook"><span>👍</span></a>
+                        <a href="https://www.tiktok.com/@goldenplaterestaurant_et?is_from_webapp=1&sender_device=pc" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><span>♪</span></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h5>Quick Links</h5>
+                    <ul>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#menu">Menu</a></li>
+                        <li><a href="#dish-gallery">Dish Gallery</a></li>
+                        <li><a href="#restaurant-gallery">Restaurant</a></li>
+                        <li><a href="#video-gallery">Videos</a></li>
+                        <li><a href="#testimonials">Reviews</a></li>
+                        <li><a href="#reservation">Reservations</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h5>Information</h5>
+                    <ul>
+                        <li><a href="#">Private Dining</a></li>
+                        <li><a href="#">Corporate Events</a></li>
+                        <li><a href="#">Birthday Packages</a></li>
+                        <li><a href="#">Terms &amp; Conditions</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h5>Contact</h5>
+                    <ul>
+                        <li><a href="tel:+251975745252">+251 97 574 5252</a></li>
+                        <li><a href="mailto:info@goldenplate.com">info@goldenplate.com</a></li>
+                        <li style="color:rgba(255,255,255,0.3);font-size:14px;">
+                            Abssinia Building<br />Cameroon St, Bole<br />Addis Ababa
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <span>&copy; 2026 Golden Plate Restaurant. All rights reserved.</span>
+                <div class="links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== Floating Buttons ===== -->
+    <button class="floating-btn floating-reservation" id="floatingReservation" aria-label="Reserve a table">
+        ✦
+    </button>
+
+    <a href="https://www.tiktok.com/@goldenplaterestaurant_et?is_from_webapp=1&sender_device=pc" target="_blank" rel="noopener noreferrer" class="floating-btn floating-tiktok" aria-label="Follow us on TikTok">
+        ♪
+    </a>
+
+    <button class="floating-btn floating-backtop" id="backToTop" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- ===== Toast ===== -->
+    <div class="toast" id="toast">
+        <span class="check">✓</span>
+        <span id="toastMessage">Reservation confirmed! We look forward to welcoming you.</span>
+    </div>
+
+    <!-- ===== MODAL for Menu Item ===== -->
+    <div class="menu-modal" id="menuModal">
+        <div class="menu-modal-content">
+            <button class="menu-modal-close" id="menuModalClose">✕</button>
+            <div class="modal-img-wrapper">
+                <img class="modal-img" id="modalImg" src="" alt="Dish detail" />
+            </div>
+            <div class="modal-body">
+                <h3 id="modalTitle">Dish Name</h3>
+                <p class="modal-desc" id="modalDesc">Description here.</p>
+                <div class="modal-tags" id="modalTags"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL for Video ===== -->
+    <div class="video-modal" id="videoModal">
+        <div class="video-modal-content">
+            <button class="video-modal-close" id="videoModalClose">✕</button>
+            <video id="videoPlayer" controls autoplay></video>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- JAVASCRIPT                                                   -->
+    <!-- ============================================================ -->
+    <script>
+        // ============================================================
+        // DATA
+        // ============================================================
+
+        const menuData = [{
+            id: 1,
+            name: 'Spaghetti Bolognese',
+            category: 'western',
+            description: 'Classic Italian spaghetti with rich, slow-cooked meat sauce, topped with fresh parmesan.',
+            image: 'images/1.jpg',
+            tags: ['Popular', 'Italian'],
+            badge: 'popular'
+        }, {
+            id: 2,
+            name: 'Fish Goulash',
+            category: 'western',
+            description: 'Hearty fish stew with tender chunks of Nile perch, bell peppers, and paprika broth.',
+            image: 'images/2.jpg',
+            tags: ['Signature', 'Seafood'],
+            badge: 'chef'
+        }, {
+            id: 3,
+            name: 'Kebabs',
+            category: 'western',
+            description: 'Grilled skewers of marinated meat with peppers and onions, served with garlic sauce.',
+            image: 'images/3.jpg',
+            tags: ['Popular', 'Grilled'],
+            badge: 'popular'
+        }, {
+            id: 4,
+            name: 'Steak Lasagna and Grilled Nile...',
+            category: 'western',
+            description: 'Layered lasagna with tender steak chunks, topped with grilled Nile perch fillet.',
+            image: 'images/4.jpg',
+            tags: ['Signature', 'Chef\'s Pick'],
+            badge: 'chef'
+        }, {
+            id: 5,
+            name: 'Shrimp Salad',
+            category: 'western',
+            description: 'Fresh garden greens topped with succulent grilled shrimp and citrus vinaigrette.',
+            image: 'images/5.jpg',
+            tags: ['Healthy', 'Seafood'],
+        }, {
+            id: 6,
+            name: 'Lasagna with Salad',
+            category: 'western',
+            description: 'Classic baked lasagna served with a crisp side salad and garlic bread.',
+            image: 'images/6.jpg',
+            tags: ['Popular', 'Italian'],
+            badge: 'popular'
+        }, {
+            id: 7,
+            name: 'Chicken Salad',
+            category: 'western',
+            description: 'Grilled chicken breast over mixed greens with cherry tomatoes and honey mustard dressing.',
+            image: 'images/7.jpg',
+            tags: ['Healthy', 'Popular'],
+        }, {
+            id: 8,
+            name: 'Chefs Signature Steak',
+            category: 'western',
+            description: 'Our chef\'s special cut of prime steak, seasoned and grilled to perfection.',
+            image: 'images/8.jpg',
+            tags: ['Chef\'s Pick', 'Premium'],
+            badge: 'chef'
+        }, {
+            id: 9,
+            name: 'Steak Tenderloin',
+            category: 'western',
+            description: 'Tender filet mignon grilled to your liking, served with roasted vegetables.',
+            image: 'images/9.jpg',
+            tags: ['Premium', 'Popular'],
+            badge: 'popular'
+        }, {
+            id: 10,
+            name: 'Stuffed Chicken',
+            category: 'western',
+            description: 'Juicy chicken breast stuffed with herbs and cheese, served with a rich sauce.',
+            image: 'images/10.jpg',
+            tags: ['Signature'],
+        }, {
+            id: 11,
+            name: 'Grilled Chicken with Pasta',
+            category: 'western',
+            description: 'Grilled chicken breast served over al dente pasta with a creamy sauce.',
+            image: 'images/11.jpg',
+            tags: ['Popular'],
+        }, {
+            id: 12,
+            name: 'Grilled Salmon',
+            category: 'western',
+            description: 'Fresh Atlantic salmon fillet grilled with lemon butter and served with seasonal vegetables.',
+            image: 'images/14.jpg',
+            tags: ['New', 'Seafood', 'Chef\'s Pick'],
+            badge: 'new'
+        }];
+
+        const dishGalleryImages = [
+            'images/15.png',
+            'images/16.png',
+            'images/17.png',
+            'images/18.png',
+            'images/19.png',
+            'images/20.png',
+            'images/21.png',
+            'images/22.png',
+        ];
+
+        const restaurantGalleryImages = [];
+        for (let i = 21; i <= 29; i++) {
+            restaurantGalleryImages.push('images/' + i + '.jpg');
+        }
+
+        // vid1, vid2 = Landscape, vid3, vid4, vid5 = Portrait (display preference)
+        const videoData = [
+            { src: 'video/vid1.mp4', portrait: false, label: 'Chef at Work' },
+            { src: 'video/vid2.mp4', portrait: false, label: 'Kitchen Prep' },
+            { src: 'video/vid3.mp4', portrait: true, label: 'Dining Experience' },
+            { src: 'video/vid4.mp4', portrait: true, label: 'Ambiance' },
+            { src: 'video/vid5.mp4', portrait: true, label: 'Customer Moments' },
+        ];
+
+        const testimonials = [{
+            name: 'Adam Jano',
+            initials: 'AJ',
+            text: 'The place is on the second floor, right on the corner of the street (it took me a moment to find it too). Great spot for both lunch and dinner! The atmosphere is relaxing and the service is excellent. The waitress who served me, "Fre", was attentive, friendly, and very helpful. I ordered the Alfredo and a steak. The Alfredo was excellent, rich and flavorful. The steak was tasty, but a bit too tough for my liking, so I\'d probably skip it next time. Overall, it\'s a lovely place to come with family, for a date, or even solo. I\'ll definitely be back.',
+            rating: 4,
+            date: '6 months ago',
+            source: 'Google'
+        }, {
+            name: 'Sara Pesenti',
+            initials: 'SP',
+            text: 'Golden Plate delivered an exceptional dining experience, made even better by our server, Barnabas Kassa. His service was outstanding—professional, attentive, and genuinely welcoming. He made sure everything was perfect from start to finish, checked in at just the right moments, and handled every request with ease and a great attitude. His attention to detail and warm personality truly elevated the entire experience. Excellent service like this is what keeps customers coming back. Highly recommended! ⭐️👏',
+            rating: 5,
+            date: '6 months ago',
+            source: 'Google'
+        }, {
+            name: 'Sisay Fekadu',
+            initials: 'SF',
+            text: 'Thank you Barnabas, Had a great dinner at Golden Plates Addis. The place is clean and well set up, with a calm atmosphere that works well for a relaxed evening. Food came fresh, well presented, and tasted solid across the board. Service was smooth. Barnabas was attentive, quick, and kept things on track without overdoing it. Overall, a reliable spot for a good dinner. I will be back.',
+            rating: 4,
+            date: '2 months ago',
+            source: 'Google'
+        }, {
+            name: 'Michel Carus',
+            initials: 'MC',
+            text: 'The moment I entered the restaurant, the power went out completely, plunging it into darkness. But nobody seemed to mind! I was invited in and shown to my table while the waiters placed battery-powered lights on the tables. The chefs continued working by the light of their cell phones over an open fire. Not a single guest left. On the contrary, new guests kept arriving. At the end: the beer was cold, the soup was hot, and the bayaynetu was delicious. What an experience! I\'d especially like to commend Fre\'s service: she was like a shining star in the dark night sky. One star deducted for the lack of gas for the emergency generator.',
+            rating: 4,
+            date: '6 months ago',
+            source: 'Google'
+        }, {
+            name: 'Mohamed Farah',
+            initials: 'MF',
+            text: 'The Golden Plate is wonderful. We had lasagne served with a side of salad, and pesto pasta, with chicken. We also had mojitos. The food was delicious and Meron was very professional and attentive. Overall, we had a great time. Highly recommend!',
+            rating: 5,
+            date: '3 months ago',
+            source: 'Google'
+        }, {
+            name: 'Tequam Gebremariam',
+            initials: 'TG',
+            text: 'Visited Golden Plate last Saturday to celebrate my best friend\'s birthday. The restaurant was lively and full, which added to the festive vibe. The setup is stylish and welcoming — a great spot for special occasions with friends or family. Due to the crowd, we had to wait quite a while for our food. While that\'s understandable, the delay likely caused the mashed potato, lasagna, and grilled chicken to arrive cold. The mashed potato also lacked flavor. Thankfully, the Chef Henock steak made up for it — juicy, well-seasoned, and clearly the highlight of the meal. The staff were courteous, and the overall ambience is pleasant. With a bit more attention to food temperature and timing, this place could easily become a top choice. I\'d rate the experience 4 out of 10, mostly for the steak and the birthday atmosphere.',
+            rating: 3,
+            date: '7 months ago',
+            source: 'Google'
+        }];
+
+        // ============================================================
+        // RENDER FUNCTIONS
+        // ============================================================
+
+        function renderMenu(filter = 'all') {
+            const grid = document.getElementById('menuGrid');
+            let filtered = menuData;
+            if (filter === 'western') {
+                filtered = menuData.filter(item => item.category === 'western');
+            } else if (filter === 'ethiopian') {
+                filtered = menuData.filter(item => item.category === 'ethiopian');
+            } else if (filter === 'chef') {
+                filtered = menuData.filter(item => item.tags.includes('Chef\'s Pick') || item.badge === 'chef');
+            }
+
+            grid.innerHTML = filtered.map(item => `
+                    <div class="menu-item" data-id="${item.id}" data-name="${item.name}" data-desc="${item.description}" data-image="${item.image}" data-tags="${item.tags.join(',')}">
+                        <div class="menu-item-image">
+                            <img src="${item.image}" alt="${item.name}" loading="lazy" />
+                            ${item.badge ? `<span class="badge badge-${item.badge}">${item.badge === 'popular' ? '★ Popular' : item.badge === 'chef' ? '👨‍🍳 Chef\'s Pick' : '✦ New'}</span>` : ''}
+                        </div>
+                        <div class="menu-item-body">
+                            <div class="top">
+                                <h4>${item.name}</h4>
+                            </div>
+                            <p class="desc">${item.description}</p>
+                            <div class="tags">
+                                ${item.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+            document.querySelectorAll('.menu-item').forEach(el => {
+                el.addEventListener('click', function() {
+                    const name = this.dataset.name;
+                    const desc = this.dataset.desc;
+                    const image = this.dataset.image;
+                    const tags = this.dataset.tags.split(',');
+                    openMenuModal(name, desc, image, tags);
+                });
+            });
+        }
+
+        function renderDishGallery() {
+            const grid = document.getElementById('dishGalleryGrid');
+            const visibleCount = 4;
+            const labels = ['Signature', 'Popular', 'Chef\'s Pick', 'Featured', 'Dish', 'Special', 'Grilled', 'Fresh'];
+            let html = '';
+            dishGalleryImages.forEach((src, i) => {
+                const hiddenClass = i >= visibleCount ? 'hidden-item' : '';
+                html += `
+                        <div class="item ${hiddenClass}" data-index="${i}">
+                            <img src="${src}" alt="Golden Plate dish ${i+1}" loading="lazy" />
+                            <div class="overlay"><span>${labels[i % labels.length]}</span></div>
+                        </div>
+                    `;
+            });
+            grid.innerHTML = html;
+            grid.dataset.visible = visibleCount;
+            grid.dataset.total = dishGalleryImages.length;
+
+            document.querySelectorAll('#dishGalleryGrid .item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const img = this.querySelector('img');
+                    if (img) openLightbox(img.src);
+                });
+            });
+        }
+
+        function renderRestaurantGallery() {
+            const grid = document.getElementById('restaurantGalleryGrid');
+            const visibleCount = 4;
+            const labels = ['Dining Room', 'Chef at Work', 'Table Setting', 'Ambiance', 'Kitchen', 'Bar', 'Seating', 'Details', 'Team'];
+            let html = '';
+            restaurantGalleryImages.forEach((src, i) => {
+                const hiddenClass = i >= visibleCount ? 'hidden-item' : '';
+                html += `
+                        <div class="item ${hiddenClass}" data-index="${i}">
+                            <img src="${src}" alt="Golden Plate restaurant ${i+1}" loading="lazy" />
+                            <div class="overlay"><span>${labels[i % labels.length]}</span></div>
+                        </div>
+                    `;
+            });
+            grid.innerHTML = html;
+            grid.dataset.visible = visibleCount;
+            grid.dataset.total = restaurantGalleryImages.length;
+
+            document.querySelectorAll('#restaurantGalleryGrid .item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const img = this.querySelector('img');
+                    if (img) openLightbox(img.src);
+                });
+            });
+        }
+
+        function renderVideoGallery() {
+            const grid = document.getElementById('videoGalleryGrid');
+            let html = '';
+            videoData.forEach((video, i) => {
+                const portraitClass = video.portrait ? 'portrait' : '';
+                html += `
+                        <div class="video-item ${portraitClass}" data-src="${video.src}" data-portrait="${video.portrait}">
+                            <video muted playsinline preload="metadata">
+                                <source src="${video.src}" type="video/mp4">
+                            </video>
+                            <div class="play-overlay">
+                                <div class="play-btn">▶</div>
+                            </div>
+                            <div class="video-label">${video.label}</div>
+                        </div>
+                    `;
+            });
+            grid.innerHTML = html;
+
+            document.querySelectorAll('.video-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const src = this.dataset.src;
+                    openVideoModal(src);
+                });
+            });
+        }
+
+        function renderTestimonials() {
+            const grid = document.getElementById('testimonialsGrid');
+            grid.innerHTML = testimonials.map((t, idx) => `
+                    <div class="testimonial-card" data-idx="${idx}">
+                        <div class="stars">${'★'.repeat(t.rating)}${'☆'.repeat(5-t.rating)}</div>
+                        <blockquote id="quote-${idx}">“${t.text}”</blockquote>
+                        <span class="read-more" data-idx="${idx}">Read more</span>
+                        <div class="author">
+                            <div class="avatar">${t.initials}</div>
+                            <div>
+                                <div class="name">${t.name}</div>
+                                <div class="detail">${t.date} · ${t.source}</div>
+                            </div>
+                        </div>
+                        <div class="verified">✓ Verified Google Review</div>
+                    </div>
+                `).join('');
+
+            document.querySelectorAll('.read-more').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const idx = this.dataset.idx;
+                    const blockquote = document.getElementById(`quote-${idx}`);
+                    const isExpanded = blockquote.classList.toggle('expanded');
+                    this.textContent = isExpanded ? 'Read less' : 'Read more';
+                });
+            });
+        }
+
+        // ============================================================
+        // EXPLORE MORE TOGGLE
+        // ============================================================
+
+        let dishExpanded = false;
+        let restaurantExpanded = false;
+
+        document.getElementById('exploreDishBtn').addEventListener('click', function() {
+            const grid = document.getElementById('dishGalleryGrid');
+            const hiddenItems = grid.querySelectorAll('.item.hidden-item');
+
+            if (!dishExpanded && hiddenItems.length > 0) {
+                hiddenItems.forEach(el => {
+                    el.classList.remove('hidden-item');
+                    el.classList.add('revealed');
+                    el.style.animation = 'none';
+                    void el.offsetHeight;
+                    el.style.animation = 'galleryFadeIn 0.6s ease forwards';
+                });
+                dishExpanded = true;
+                this.textContent = 'Show Less ✦';
+            } else if (dishExpanded) {
+                const allItems = grid.querySelectorAll('.item');
+                allItems.forEach((el, i) => {
+                    if (i >= 4) {
+                        el.classList.add('hidden-item');
+                        el.classList.remove('revealed');
+                        el.style.animation = '';
+                    }
+                });
+                dishExpanded = false;
+                this.textContent = 'Explore More ✦';
+                document.querySelector('#dish-gallery .section-header').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+
+        document.getElementById('exploreRestaurantBtn').addEventListener('click', function() {
+            const grid = document.getElementById('restaurantGalleryGrid');
+            const hiddenItems = grid.querySelectorAll('.item.hidden-item');
+
+            if (!restaurantExpanded && hiddenItems.length > 0) {
+                hiddenItems.forEach(el => {
+                    el.classList.remove('hidden-item');
+                    el.classList.add('revealed');
+                    el.style.animation = 'none';
+                    void el.offsetHeight;
+                    el.style.animation = 'galleryFadeIn 0.6s ease forwards';
+                });
+                restaurantExpanded = true;
+                this.textContent = 'Show Less ✦';
+            } else if (restaurantExpanded) {
+                const allItems = grid.querySelectorAll('.item');
+                allItems.forEach((el, i) => {
+                    if (i >= 4) {
+                        el.classList.add('hidden-item');
+                        el.classList.remove('revealed');
+                        el.style.animation = '';
+                    }
+                });
+                restaurantExpanded = false;
+                this.textContent = 'Explore More ✦';
+                document.querySelector('#restaurant-gallery .section-header').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+
+        // ============================================================
+        // MODALS
+        // ============================================================
+
+        const menuModal = document.getElementById('menuModal');
+        const modalImg = document.getElementById('modalImg');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDesc = document.getElementById('modalDesc');
+        const modalTags = document.getElementById('modalTags');
+        const modalClose = document.getElementById('menuModalClose');
+
+        function openMenuModal(name, desc, image, tags) {
+            modalImg.src = image;
+            modalImg.alt = name;
+            modalTitle.textContent = name;
+            modalDesc.textContent = desc;
+            modalTags.innerHTML = tags.map(t => `<span>${t}</span>`).join('');
+            menuModal.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenuModal() {
+            menuModal.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        modalClose.addEventListener('click', closeMenuModal);
+        menuModal.addEventListener('click', function(e) {
+            if (e.target === this) closeMenuModal();
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeMenuModal();
+        });
+
+        const videoModal = document.getElementById('videoModal');
+        const videoPlayer = document.getElementById('videoPlayer');
+        const videoModalClose = document.getElementById('videoModalClose');
+
+        function openVideoModal(src) {
+            videoPlayer.src = src;
+            videoPlayer.load();
+            videoModal.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeVideoModal() {
+            videoModal.classList.remove('open');
+            videoPlayer.pause();
+            videoPlayer.src = '';
+            document.body.style.overflow = '';
+        }
+
+        videoModalClose.addEventListener('click', closeVideoModal);
+        videoModal.addEventListener('click', function(e) {
+            if (e.target === this) closeVideoModal();
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeVideoModal();
+        });
+
+        // ============================================================
+        // NAVIGATION
+        // ============================================================
+
+        const navbar = document.getElementById('navbar');
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY > 60;
+            navbar.classList.toggle('scrolled', scrolled);
+            const backBtn = document.getElementById('backToTop');
+            backBtn.classList.toggle('visible', window.scrollY > 600);
+        });
+
+        menuToggle.addEventListener('click', () => {
+            const isOpen = navLinks.classList.toggle('open');
+            menuToggle.classList.toggle('active');
+            menuToggle.setAttribute('aria-expanded', isOpen);
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('open');
+                menuToggle.classList.remove('active');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        document.querySelectorAll('.menu-filter').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.menu-filter').forEach(b => {
+                    b.classList.remove('active');
+                    b.setAttribute('aria-selected', 'false');
+                });
+                btn.classList.add('active');
+                btn.setAttribute('aria-selected', 'true');
+                renderMenu(btn.dataset.filter);
+            });
+        });
+
+        // ============================================================
+        // RESERVATION FORM
+        // ============================================================
+
+        document.getElementById('reservationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('resName').value.trim();
+            const email = document.getElementById('resEmail').value.trim();
+            const phone = document.getElementById('resPhone').value.trim();
+            const guests = document.getElementById('resGuests').value;
+            const date = document.getElementById('resDate').value;
+            const time = document.getElementById('resTime').value;
+
+            if (!name || !email || !phone || !guests || !date || !time) {
+                showToast('Please fill in all required fields.', false);
+                return;
+            }
+
+            showToast(`✓ Reservation confirmed for ${name}! We look forward to welcoming you.`, true);
+            this.reset();
+        });
+
+        // ============================================================
+        // TOAST
+        // ============================================================
+
+        let toastTimeout;
+
+        function showToast(message, success = true) {
+            const toast = document.getElementById('toast');
+            const msgEl = document.getElementById('toastMessage');
+            msgEl.textContent = message;
+            toast.className = 'toast show';
+            toast.style.borderColor = success ? 'rgba(201,168,76,0.2)' : 'rgba(255,82,82,0.3)';
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 5000);
+        }
+
+        // ============================================================
+        // FLOATING BUTTONS
+        // ============================================================
+
+        document.getElementById('floatingReservation').addEventListener('click', () => {
+            document.getElementById('reservation').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById('backToTop').addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ============================================================
+        // SCROLL PROGRESS
+        // ============================================================
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            document.getElementById('scroll-progress').style.width = progress + '%';
+        });
+
+        // ============================================================
+        // REVEAL ON SCROLL
+        // ============================================================
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.08,
+            rootMargin: '0px 0px -40px 0px'
+        });
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        // ============================================================
+        // LIGHTBOX
+        // ============================================================
+
+        function openLightbox(src) {
+            const overlay = document.createElement('div');
+            overlay.style.cssText = `
+                    position:fixed;inset:0;background:rgba(0,0,0,0.94);
+                    z-index:99999;display:flex;align-items:center;justify-content:center;
+                    cursor:pointer;padding:40px;backdrop-filter:blur(24px);
+                    animation:fadeIn 0.3s ease;
+                `;
+            const img = document.createElement('img');
+            img.src = src;
+            img.style.cssText = `
+                    max-width:90vw;max-height:85vh;object-fit:contain;
+                    border-radius:12px;box-shadow:0 0 80px rgba(201,168,76,0.3), 0 30px 80px rgba(0,0,0,0.8);
+                    animation:scaleIn 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+                `;
+            overlay.appendChild(img);
+            overlay.addEventListener('click', () => {
+                overlay.style.opacity = '0';
+                setTimeout(() => overlay.remove(), 300);
+            });
+            document.body.appendChild(overlay);
+
+            if (!document.getElementById('lightbox-styles')) {
+                const style = document.createElement('style');
+                style.id = 'lightbox-styles';
+                style.textContent = `
+                        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+                        @keyframes scaleIn { from { opacity:0; transform:scale(0.92); } to { opacity:1; transform:scale(1); } }
+                    `;
+                document.head.appendChild(style);
+            }
+        }
+
+        // ============================================================
+        // LOADER
+        // ============================================================
+
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 600);
+        });
+
+        // ============================================================
+        // INITIAL RENDER
+        // ============================================================
+
+        renderMenu('all');
+        renderDishGallery();
+        renderRestaurantGallery();
+        renderVideoGallery();
+        renderTestimonials();
+
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('resDate').setAttribute('min', today);
+        document.getElementById('resDate').value = today;
+
+        console.log('✨ Golden Plate Restaurant — Premium Website Loaded');
+        console.log('🍽️ 12 menu items');
+        console.log('🖼️ Dish Gallery: 8 images (4 shown initially)');
+        console.log('🏛️ Restaurant Gallery: 9 images (4 shown initially)');
+        console.log('🎬 Video Gallery: 5 videos (2 landscape, 3 portrait)');
+        console.log('📝 6 real Google reviews');
+        console.log('🎵 TikTok: @goldenplaterestaurant_et');
+    </script>
+
+</body>
+</html>
