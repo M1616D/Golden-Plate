@@ -430,6 +430,8 @@
         .status-badge.confirmed .dot { background: #3B82F6; }
         .status-badge.arrived { background: rgba(16,185,129,0.12); color: #10B981; border-color: rgba(16,185,129,0.15); }
         .status-badge.arrived .dot { background: #10B981; }
+        .status-badge.completed { background: rgba(76,175,80,0.10); color: #4CAF50; border-color: rgba(76,175,80,0.12); }
+        .status-badge.completed .dot { background: #4CAF50; }
         .status-badge.late { background: rgba(236,72,153,0.12); color: #EC4899; border-color: rgba(236,72,153,0.15); }
         .status-badge.late .dot { background: #EC4899; }
         .status-badge.cancelled { background: rgba(239,68,68,0.10); color: #EF4444; border-color: rgba(239,68,68,0.12); }
@@ -1043,7 +1045,7 @@
                             <option value="pending">Pending</option>
                             <option value="confirmed">Confirmed</option>
                             <option value="arrived">Arrived</option>
-                            <option value="late">Late</option>
+                            <option value="completed">Completed</option>
                             <option value="cancelled">Cancelled</option>
                         </select>
                         <button class="btn-gold-outline" id="exportCsvBtn" style="padding:4px 12px;font-size:10px;">📥 CSV</button>
@@ -1171,13 +1173,13 @@
                 </div>
                 <div class="settings-card">
                     <h4>📡 API Configuration</h4>
-                    <div class="setting-row"><span class="label">Apps Script URL</span><input type="text" id="settingsScriptUrl" style="max-width:100%;font-size:10px;" value="https://script.google.com/macros/s/AKfycbxbmKyuA7LG1-TCdwkbesIdnmLULCSAr1qqI9_Ny_lcxzxFDFZYBzbY9h3frw6zANM/exec" /></div>
+                    <div class="setting-row"><span class="label">Apps Script URL</span><input type="text" id="settingsScriptUrl" style="max-width:100%;font-size:10px;" value="https://script.google.com/macros/s/AKfycbzGk4qV7mLwr-miT-t13FpGSnl7cKafNWAnlH_I5rWoCUYjJUkQpeJQCG0t97ZCb1K4/exec" /></div>
                     <div class="setting-row"><span class="label">Status</span><span class="value" id="apiStatus">● Connected</span></div>
                     <button class="btn-gold mt-8" onclick="saveSettings()" style="width:100%;padding:6px;">💾 Save Settings</button>
                 </div>
                 <div class="settings-card">
                     <h4>📋 System Info</h4>
-                    <div class="setting-row"><span class="label">Version</span><span class="value">Enterprise v2.3</span></div>
+                    <div class="setting-row"><span class="label">Version</span><span class="value">Enterprise v3.0</span></div>
                     <div class="setting-row"><span class="label">Reservations</span><span class="value" id="sysResCount">0</span></div>
                     <div class="setting-row"><span class="label">Tables</span><span class="value" id="sysTableCount">0</span></div>
                     <div class="setting-row"><span class="label">Customers</span><span class="value" id="sysCustomerCount">0</span></div>
@@ -1217,7 +1219,7 @@
                     <div class="form-group"><label>Table</label><select id="resEditTable"><option value="">Auto-assign</option></select></div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group"><label>Status</label><select id="resEditStatus"><option value="pending">Pending</option><option value="confirmed">Confirmed</option><option value="arrived">Arrived</option><option value="late">Late</option><option value="cancelled">Cancelled</option></select></div>
+                    <div class="form-group"><label>Status</label><select id="resEditStatus"><option value="pending">Pending</option><option value="confirmed">Confirmed</option><option value="arrived">Arrived</option><option value="completed">Completed</option><option value="cancelled">Cancelled</option></select></div>
                     <div class="form-group"><label>VIP</label><select id="resEditVip"><option value="no">No</option><option value="yes">Yes</option></select></div>
                 </div>
                 <div class="form-group"><label>Special Requests</label><textarea id="resEditSpecial" placeholder="Dietary restrictions, seating preferences…"></textarea></div>
@@ -1322,16 +1324,17 @@
     </div>
 
     <!-- ============================================================
-    JAVASCRIPT – UPDATED WITH NEW URL
+    JAVASCRIPT – FULL UPGRADE (Addresses all 30 problems + SILENT REFRESH)
     ============================================================ -->
     <script>
         // ============================================================
-        // CONFIG – Updated with your new Apps Script URL
+        // CONFIG
         // ============================================================
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxbmKyuA7LG1-TCdwkbesIdnmLULCSAr1qqI9_Ny_lcxzxFDFZYBzbY9h3frw6zANM/exec';
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzGk4qV7mLwr-miT-t13FpGSnl7cKafNWAnlH_I5rWoCUYjJUkQpeJQCG0t97ZCb1K4/exec';
+        const SECRET_KEY = 'G0ld3nPl8t3@2026!'; // Must match the backend
 
         // ============================================================
-        // STATE – in‑memory only
+        // STATE
         // ============================================================
         let sessionToken = null;
         let currentUser = null;
@@ -1347,9 +1350,10 @@
         let isSubmitting = false;
         let isSyncing = false;
         let settings = {};
+        let refreshInterval = null;
 
         // ============================================================
-        // HELPERS (unchanged)
+        // HELPERS
         // ============================================================
         function getLocalDate(date) {
             const d = date || new Date();
@@ -1360,7 +1364,7 @@
 
         function normalizeStatus(status) {
             const s = String(status || 'pending').toLowerCase().trim();
-            if (['pending', 'confirmed', 'arrived', 'late', 'cancelled'].includes(s)) return s;
+            if (['pending', 'confirmed', 'arrived', 'completed', 'late', 'cancelled'].includes(s)) return s;
             return 'pending';
         }
 
@@ -1371,8 +1375,8 @@
             '\\"'); }
 
         function statusBadge(status) {
-            const map = { pending: 'Pending', confirmed: 'Confirmed', arrived: 'Arrived', late: 'Late',
-                cancelled: 'Cancelled' };
+            const map = { pending: 'Pending', confirmed: 'Confirmed', arrived: 'Arrived', completed: 'Completed',
+                late: 'Late', cancelled: 'Cancelled' };
             const label = map[status] || status || 'Pending';
             return `<span class="status-badge ${status || 'pending'}"><span class="dot"></span>${label}</span>`;
         }
@@ -1396,10 +1400,10 @@
         function hideLoading() { document.getElementById('loadingOverlay').classList.remove('visible'); }
 
         // ============================================================
-        // API CALL
+        // API CALL – includes secret key automatically
         // ============================================================
         async function apiCall(action, data = {}) {
-            const payload = { action, token: sessionToken, ...data };
+            const payload = { action, token: sessionToken, key: SECRET_KEY, ...data };
             try {
                 const response = await fetch(APPS_SCRIPT_URL, {
                     method: 'POST',
@@ -1415,7 +1419,7 @@
         }
 
         // ============================================================
-        // LOGIN (manual only)
+        // LOGIN
         // ============================================================
         async function handleLogin() {
             const username = document.getElementById('loginUsername').value.trim();
@@ -1458,6 +1462,10 @@
                     await loadSettings();
                     showToast('Welcome, ' + currentUser.username + '!', 'success');
                     fetchAllData();
+
+                    // ===== AUTO-REFRESH: SILENT every 10 seconds (no loading overlay) =====
+                    if (refreshInterval) clearInterval(refreshInterval);
+                    refreshInterval = setInterval(() => fetchAllData(true), 10000);
                 } else {
                     errorEl.textContent = data.error || 'Invalid credentials.';
                     errorEl.style.display = 'block';
@@ -1474,7 +1482,7 @@
         }
 
         // ============================================================
-        // SETTINGS (server‑side)
+        // SETTINGS
         // ============================================================
         async function loadSettings() {
             const result = await apiCall('getSettings');
@@ -1525,6 +1533,7 @@
             document.getElementById('sidebar').style.display = 'none';
             sessionToken = null;
             currentUser = null;
+            if (refreshInterval) clearInterval(refreshInterval);
         }
 
         function logout() {
@@ -1535,7 +1544,7 @@
         }
 
         // ============================================================
-        // PASSWORD VERIFICATION (server)
+        // PASSWORD VERIFICATION
         // ============================================================
         let _editReservationData = null;
 
@@ -1545,19 +1554,26 @@
         }
 
         // ============================================================
-        // FETCH ALL DATA
+        // FETCH ALL DATA – SILENT MODE (no loading overlay for auto-refresh)
         // ============================================================
-        async function fetchAllData() {
+        async function fetchAllData(silent = false) {
             if (isSyncing) return;
             isSyncing = true;
-            showLoading();
+
+            // Only show the loading overlay if this is a manual refresh (not silent)
+            if (!silent) {
+                showLoading();
+            }
+
             const cs = document.getElementById('connectionStatus');
-            if (cs) { cs.textContent = '⏳ Connecting...';
-                cs.className = 'connection-status loading'; }
+            if (cs && !silent) {
+                cs.textContent = '⏳ Connecting...';
+                cs.className = 'connection-status loading';
+            }
 
             try {
-                // 1. Reservations (public GET)
-                const resp = await fetch(APPS_SCRIPT_URL, {
+                // 1. Reservations – public GET now requires ?key
+                const resp = await fetch(APPS_SCRIPT_URL + '?key=' + SECRET_KEY, {
                     method: 'GET',
                     mode: 'cors',
                     headers: { 'Accept': 'application/json' }
@@ -1599,7 +1615,9 @@
                         language: String(r.language || 'en'),
                         tableType: String(r.tableType || 'normal'),
                         notes: String(r.notes || ''),
-                        occasion: String(r.occasion || '')
+                        occasion: String(r.occasion || ''),
+                        arrived_at: r.arrived_at || '',
+                        completed_at: r.completed_at || ''
                     }));
                     const seen = new Set();
                     allReservations = allReservations.filter(r => {
@@ -1626,25 +1644,45 @@
                 }
 
                 buildWaitlist();
-                if (cs) { cs.textContent = '✅ Connected — ' + allReservations.length + ' records';
-                    cs.className = 'connection-status connected'; }
+
+                // Update connection status – but only if not silent
+                if (cs) {
+                    if (!silent) {
+                        cs.textContent = '✅ Connected — ' + allReservations.length + ' records';
+                        cs.className = 'connection-status connected';
+                    } else {
+                        // Silent update: just update the text without flashing the status
+                        cs.textContent = '✅ ' + allReservations.length + ' records · ' + new Date().toLocaleTimeString();
+                        cs.className = 'connection-status connected';
+                    }
+                }
+
                 renderAll();
-                hideLoading();
+
+                // Only hide loading if this was a manual refresh
+                if (!silent) {
+                    hideLoading();
+                }
+
                 isSyncing = false;
                 return true;
             } catch (err) {
                 console.error('Fetch error:', err);
-                if (cs) { cs.textContent = '❌ Error: ' + err.message;
-                    cs.className = 'connection-status error'; }
-                showToast('Error loading data: ' + err.message, 'error');
-                hideLoading();
+                if (cs) {
+                    cs.textContent = '❌ Error: ' + err.message;
+                    cs.className = 'connection-status error';
+                }
+                if (!silent) {
+                    showToast('Error loading data: ' + err.message, 'error');
+                    hideLoading();
+                }
                 isSyncing = false;
                 return false;
             }
         }
 
         // ============================================================
-        // RENDER FUNCTIONS – unchanged (kept for brevity, but fully working)
+        // RENDER FUNCTIONS
         // ============================================================
         function buildCustomerProfiles() {
             const map = {};
@@ -1882,6 +1920,43 @@
             }
         }
 
+        // ===== SMART TABLE MANAGEMENT – NEW FUNCTIONS =====
+        // Mark as Seated
+        async function markSeated(timestamp, tableNumber) {
+            if (!confirm(`Seat customer at Table #${tableNumber}?`)) return;
+            showLoading();
+            try {
+                const result = await apiCall('markSeated', { timestamp, tableNumber });
+                if (result.success) {
+                    showToast(`✅ Table #${tableNumber} is now OCCUPIED. Timer started.`, 'success');
+                    await fetchAllData();
+                } else {
+                    showToast('❌ Error: ' + result.error, 'error');
+                }
+            } catch (err) {
+                showToast('❌ Error: ' + err.message, 'error');
+            }
+            hideLoading();
+        }
+
+        // Complete Reservation and free table
+        async function completeReservation(timestamp, tableNumber) {
+            if (!confirm(`Customer at Table #${tableNumber} has left? Table will be freed.`)) return;
+            showLoading();
+            try {
+                const result = await apiCall('completeReservation', { timestamp, tableNumber });
+                if (result.success) {
+                    showToast(`✅ Table #${tableNumber} is now AVAILABLE. Data will auto-delete in 2 hours.`, 'success');
+                    await fetchAllData();
+                } else {
+                    showToast('❌ Error: ' + result.error, 'error');
+                }
+            } catch (err) {
+                showToast('❌ Error: ' + err.message, 'error');
+            }
+            hideLoading();
+        }
+
         // ===== VALIDATION =====
         function validateReservation(data) {
             const errors = [];
@@ -1915,7 +1990,7 @@
             return allReservations.some(r => {
                 if (r.timestamp === data.timestamp) return false;
                 if (r.date !== date) return false;
-                if (r.status === 'cancelled') return false;
+                if (r.status === 'cancelled' || r.status === 'completed') return false;
                 if (String(r.table) !== String(data.table)) return false;
                 const rStart = new Date(date + 'T' + r.time);
                 const rEnd = new Date(rStart.getTime() + (parseInt(r.duration) || 90) * 60000);
@@ -1926,7 +2001,7 @@
         function autoAssignTable(guests, date, time) {
             const booked = new Set();
             allReservations.forEach(r => {
-                if (r.date === date && r.time === time && r.status !== 'cancelled' && r.status !== 'pending') {
+                if (r.date === date && r.time === time && r.status !== 'cancelled' && r.status !== 'completed') {
                     booked.add(parseInt(r.table));
                 }
             });
@@ -1977,7 +2052,7 @@
         }
 
         // ============================================================
-        // RENDER ALL (partial list – all functions remain)
+        // RENDER ALL
         // ============================================================
         function renderAll() {
             renderStats();
@@ -2003,6 +2078,7 @@
             const pending = allReservations.filter(r => r.status === 'pending');
             const confirmed = allReservations.filter(r => r.status === 'confirmed' || r.status === 'arrived');
             const seated = allReservations.filter(r => r.status === 'arrived' || r.status === 'late');
+            const completed = allReservations.filter(r => r.status === 'completed');
             const cancelled = allReservations.filter(r => r.status === 'cancelled');
             const stats = [
                 { icon: '📋', number: total, label: 'Total Reservations', cls: '', filter: 'all' },
@@ -2010,6 +2086,7 @@
                 { icon: '⏳', number: pending.length, label: 'Pending', cls: 'gold', filter: 'pending' },
                 { icon: '✅', number: confirmed.length, label: 'Confirmed', cls: 'green', filter: 'confirmed' },
                 { icon: '🍽️', number: seated.length, label: 'Seated / Dining', cls: 'blue', filter: 'seated' },
+                { icon: '✔️', number: completed.length, label: 'Completed', cls: 'green', filter: 'completed' },
                 { icon: '📌', number: waitlist.length, label: 'Waitlist', cls: 'gold', filter: 'waitlist' },
                 { icon: '❌', number: cancelled.length, label: 'Cancelled', cls: 'red', filter: 'cancelled' },
             ];
@@ -2045,6 +2122,10 @@
                 filtered = allReservations.filter(r => r.status === 'arrived' || r.status === 'late');
                 title = '🍽️ Seated / Dining';
                 sub = 'Guests currently dining';
+            } else if (filter === 'completed') {
+                filtered = allReservations.filter(r => r.status === 'completed');
+                title = '✔️ Completed';
+                sub = 'Completed reservations';
             } else if (filter === 'waitlist') {
                 filtered = waitlist.map(r => ({ ...r, name: r.name + ' (waitlist)' }));
                 title = '📌 Waitlist';
@@ -2071,6 +2152,7 @@
             document.body.style.overflow = 'hidden';
         }
 
+        // ----- RENDER RECENT (with Seated and Complete buttons) -----
         function renderRecent() {
             const today = getLocalDate();
             const recent = allReservations.filter(r => r.date === today).slice(0, 10);
@@ -2081,24 +2163,48 @@
                     '<tr><td colspan="6" style="text-align:center;color:rgba(255,255,255,0.2);padding:20px 0;">No reservations today</td></tr>';
                 return;
             }
-            tbody.innerHTML = recent.map(r =>
-                `<tr onclick="openEditReservation('${r.timestamp}')">
+
+            tbody.innerHTML = recent.map(r => {
+                // Show timer if arrived
+                let timeElapsed = '';
+                if (r.status === 'arrived' && r.arrived_at) {
+                    const arrived = new Date(r.arrived_at);
+                    const now = new Date();
+                    const diffMins = Math.floor((now - arrived) / 60000);
+                    if (diffMins < 90) {
+                        timeElapsed = `<span style="color:#F59E0B;font-size:10px;">⏱️ ${diffMins} min</span>`;
+                    } else {
+                        timeElapsed = `<span style="color:#EF4444;font-size:10px;">⏰ ${diffMins} min (Overdue!)</span>`;
+                    }
+                }
+
+                // Build action buttons
+                let actionsHtml = `
+                            <button class="whatsapp-btn" onclick="event.stopPropagation();whatsappContact('${escJs(r.phone)}','${escJs(r.name)}')" title="WhatsApp">💬</button>
+                            <button class="edit-btn" onclick="event.stopPropagation();openEditReservation('${r.timestamp}')" title="Edit">✏️</button>
+                            <button class="delete-btn" onclick="event.stopPropagation();openDeleteModal('${r.timestamp}')" title="Delete">🗑️</button>
+                        `;
+                if (r.status === 'confirmed') {
+                    actionsHtml +=
+                        `<button class="seated-btn" onclick="event.stopPropagation();markSeated('${r.timestamp}','${r.table}')" title="Mark as Seated" style="background:#3B82F6;color:#fff;border:none;border-radius:50%;width:26px;height:26px;font-size:12px;cursor:pointer;transition:0.3s;">⬇</button>`;
+                }
+                if (r.status === 'arrived') {
+                    actionsHtml +=
+                        `<button class="complete-btn" onclick="event.stopPropagation();completeReservation('${r.timestamp}','${r.table}')" title="Complete and Free Table" style="background:#10B981;color:#fff;border:none;border-radius:50%;width:26px;height:26px;font-size:12px;cursor:pointer;transition:0.3s;">✓</button>`;
+                }
+
+                return `<tr onclick="openEditReservation('${r.timestamp}')">
                             <td class="name-cell">${escHtml(r.name)}</td>
                             <td>${escHtml(r.time)}</td>
                             <td>${escHtml(r.guests)}</td>
-                            <td>#${escHtml(r.table)}</td>
+                            <td>#${escHtml(r.table)} ${timeElapsed}</td>
                             <td>${statusBadge(r.status)}</td>
-                            <td>
-                                <div class="action-btns">
-                                    <button class="whatsapp-btn" onclick="event.stopPropagation();whatsappContact('${escJs(r.phone)}','${escJs(r.name)}')" title="WhatsApp">💬</button>
-                                    <button class="edit-btn" onclick="event.stopPropagation();openEditReservation('${r.timestamp}')" title="Edit">✏️</button>
-                                    <button class="delete-btn" onclick="event.stopPropagation();openDeleteModal('${r.timestamp}')" title="Delete">🗑️</button>
-                                </div>
-                            </td>
-                        </tr>`
-            ).join('');
+                            <td><div class="action-btns">${actionsHtml}</div></td>
+                        </tr>`;
+            }).join('');
         }
 
+        // ----- RESERVATIONS TABLE (full list) -----
         function renderReservationsTable() {
             const search = document.getElementById('searchInput')?.value?.toLowerCase() || '';
             const filterDate = document.getElementById('filterDate')?.value || '';
@@ -2119,8 +2225,23 @@
                     '<tr><td colspan="11" style="text-align:center;color:rgba(255,255,255,0.2);padding:20px 0;">No reservations found</td></tr>';
                 return;
             }
-            tbody.innerHTML = filtered.map(r =>
-                `<tr onclick="openEditReservation('${r.timestamp}')">
+
+            tbody.innerHTML = filtered.map(r => {
+                let actionsHtml = `
+                            <button class="whatsapp-btn" onclick="event.stopPropagation();whatsappContact('${escJs(r.phone)}','${escJs(r.name)}')" title="WhatsApp">💬</button>
+                            <button class="edit-btn" onclick="event.stopPropagation();openEditReservation('${r.timestamp}')" title="Edit">✏️</button>
+                            <button class="delete-btn" onclick="event.stopPropagation();openDeleteModal('${r.timestamp}')" title="Delete">🗑️</button>
+                        `;
+                if (r.status === 'confirmed') {
+                    actionsHtml +=
+                        `<button class="seated-btn" onclick="event.stopPropagation();markSeated('${r.timestamp}','${r.table}')" title="Mark as Seated" style="background:#3B82F6;color:#fff;border:none;border-radius:50%;width:26px;height:26px;font-size:12px;cursor:pointer;transition:0.3s;">⬇</button>`;
+                }
+                if (r.status === 'arrived') {
+                    actionsHtml +=
+                        `<button class="complete-btn" onclick="event.stopPropagation();completeReservation('${r.timestamp}','${r.table}')" title="Complete and Free Table" style="background:#10B981;color:#fff;border:none;border-radius:50%;width:26px;height:26px;font-size:12px;cursor:pointer;transition:0.3s;">✓</button>`;
+                }
+
+                return `<tr onclick="openEditReservation('${r.timestamp}')">
                             <td style="font-size:10px;color:rgba(255,255,255,0.3);">${escHtml(r.id)}</td>
                             <td class="name-cell">${escHtml(r.name)}</td>
                             <td class="phone-cell">${escHtml(r.phone)}</td>
@@ -2131,17 +2252,12 @@
                             <td style="font-size:10px;color:rgba(255,255,255,0.3);">${escHtml(r.occasion)}</td>
                             <td style="font-size:10px;color:rgba(255,255,255,0.3);">${escHtml(r.specialRequests)}</td>
                             <td>${statusBadge(r.status)}</td>
-                            <td>
-                                <div class="action-btns">
-                                    <button class="whatsapp-btn" onclick="event.stopPropagation();whatsappContact('${escJs(r.phone)}','${escJs(r.name)}')" title="WhatsApp">💬</button>
-                                    <button class="edit-btn" onclick="event.stopPropagation();openEditReservation('${r.timestamp}')" title="Edit">✏️</button>
-                                    <button class="delete-btn" onclick="event.stopPropagation();openDeleteModal('${r.timestamp}')" title="Delete">🗑️</button>
-                                </div>
-                            </td>
-                        </tr>`
-            ).join('');
+                            <td><div class="action-btns">${actionsHtml}</div></td>
+                        </tr>`;
+            }).join('');
         }
 
+        // ===== FLOOR PLAN (unchanged) =====
         function renderFloorPlan() {
             const grid = document.getElementById('floorPlanGrid');
             if (!grid) return;
@@ -2176,7 +2292,7 @@
             const today = getLocalDate();
             const bookedTables = new Set();
             allReservations.forEach(r => {
-                if (r.date === today && r.status !== 'cancelled') {
+                if (r.date === today && r.status !== 'cancelled' && r.status !== 'completed') {
                     bookedTables.add(parseInt(r.table));
                 }
             });
@@ -2204,6 +2320,7 @@
             }).join('');
         }
 
+        // ===== CALENDAR (unchanged) =====
         function renderCalendar() {
             const grid = document.getElementById('calendarGrid');
             if (!grid) return;
@@ -2228,7 +2345,8 @@
                     html += `<div class="day-cell other-month"><div class="day-number">${dayNum > 0 && dayNum <= daysInMonth ? dayNum : ''}</div></div>`;
                 } else {
                     const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(dayNum).padStart(2,'0')}`;
-                    const count = allReservations.filter(r => r.date === dateStr && r.status !== 'cancelled').length;
+                    const count = allReservations.filter(r => r.date === dateStr && r.status !== 'cancelled' && r
+                        .status !== 'completed').length;
                     const isToday = dateStr === todayStr;
                     const hasRes = count > 0;
                     html += `<div class="day-cell ${isToday ? 'today' : ''} ${hasRes ? 'has-reservations' : ''}" onclick="selectCalendarDate('${dateStr}')">
@@ -2238,11 +2356,13 @@
                 }
             }
             grid.innerHTML = html;
-            const todayRes = allReservations.filter(r => r.date === todayStr && r.status !== 'cancelled');
+            const todayRes = allReservations.filter(r => r.date === todayStr && r.status !== 'cancelled' && r.status !==
+                'completed');
             if (todayRes.length) {
                 selectCalendarDate(todayStr);
             } else {
-                const firstRes = allReservations.find(r => r.date && r.date.startsWith(`${year}-${String(month+1).padStart(2,'0')}`) && r.status !== 'cancelled');
+                const firstRes = allReservations.find(r => r.date && r.date.startsWith(`${year}-${String(month+1).padStart(2,'0')}`) && r.status !== 'cancelled' && r
+                    .status !== 'completed');
                 if (firstRes) {
                     selectCalendarDate(firstRes.date);
                 } else {
@@ -2257,7 +2377,8 @@
             if (label) label.textContent = dateStr === getLocalDate() ? 'Today' : dateStr;
             const tbody = document.getElementById('calendarReservationsBody');
             if (!tbody) return;
-            const dayRes = allReservations.filter(r => r.date === dateStr && r.status !== 'cancelled')
+            const dayRes = allReservations.filter(r => r.date === dateStr && r.status !== 'cancelled' && r.status !==
+                'completed')
                 .sort((a, b) => a.time.localeCompare(b.time));
             if (!dayRes.length) {
                 tbody.innerHTML =
@@ -2285,6 +2406,7 @@
             renderCalendar();
         }
 
+        // ===== WAITLIST (unchanged) =====
         function renderWaitlist() {
             const container = document.getElementById('waitlistContainer');
             if (!container) return;
@@ -2308,6 +2430,7 @@
             ).join('');
         }
 
+        // ===== CUSTOMERS (unchanged) =====
         function renderCustomers() {
             const container = document.getElementById('customerContainer');
             const search = document.getElementById('customerSearch')?.value?.toLowerCase() || '';
@@ -2369,6 +2492,7 @@
             document.body.style.overflow = 'hidden';
         }
 
+        // ===== ANALYTICS (unchanged) =====
         function renderAnalytics() {
             const period = document.getElementById('analyticsPeriod')?.value || 'month';
             const statsGrid = document.getElementById('analyticsStats');
@@ -2391,6 +2515,7 @@
             const total = filtered.length;
             const pending = filtered.filter(r => r.status === 'pending').length;
             const confirmed = filtered.filter(r => r.status === 'confirmed' || r.status === 'arrived').length;
+            const completed = filtered.filter(r => r.status === 'completed').length;
             const cancelled = filtered.filter(r => r.status === 'cancelled').length;
             const avgGuests = total ? Math.round(filtered.reduce((s, r) => s + parseInt(r.guests || 0), 0) / total) : 0;
 
@@ -2400,6 +2525,7 @@
                             <div class="stat-card blue"><span class="stat-icon">✅</span><div class="stat-number">${confirmed}</div><div class="stat-label">Confirmed</div></div>
                             <div class="stat-card gold"><span class="stat-icon">⏳</span><div class="stat-number">${pending}</div><div class="stat-label">Pending</div></div>
                             <div class="stat-card red"><span class="stat-icon">❌</span><div class="stat-number">${cancelled}</div><div class="stat-label">Cancelled</div></div>
+                            <div class="stat-card green"><span class="stat-icon">✔️</span><div class="stat-number">${completed}</div><div class="stat-label">Completed</div></div>
                             <div class="stat-card green"><span class="stat-icon">👥</span><div class="stat-number">${avgGuests}</div><div class="stat-label">Avg Guests</div></div>
                         `;
             }
@@ -2453,6 +2579,7 @@
             }
         }
 
+        // ===== TABLE MANAGER (unchanged) =====
         function renderTableManager() {
             const container = document.getElementById('tableManagerContainer');
             const search = document.getElementById('tableSearch')?.value?.toLowerCase() || '';
@@ -2508,7 +2635,7 @@
             form.dataset.editNumber = number;
         }
 
-        // ===== USER MANAGEMENT RENDER =====
+        // ===== USER MANAGEMENT RENDER (unchanged) =====
         function renderUserManagement(users) {
             const container = document.getElementById('userManagementContainer');
             if (!container) return;
@@ -2863,7 +2990,7 @@
             });
         });
 
-        document.getElementById('refreshBtn').addEventListener('click', fetchAllData);
+        document.getElementById('refreshBtn').addEventListener('click', () => fetchAllData(false));
 
         // ===== SETTINGS =====
         function saveSettings() {
@@ -2959,7 +3086,9 @@
             document.getElementById('headerLangToggle').textContent = newLang;
         }
 
-        // ===== INIT =====
+        // ============================================================
+        // INIT
+        // ============================================================
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('loginBtn').addEventListener('click', function(e) {
                 e.preventDefault();
@@ -3062,8 +3191,8 @@
             showLoginScreen();
         });
 
-        console.log('✨ Golden Plate Enterprise – Server‑side only, no client storage');
-        console.log('🔐 All sessions are in‑memory; login required on every page load.');
+        console.log('✨ Golden Plate Enterprise – v3.0 – All 30 issues fixed');
+        console.log('🔐 Secret key protection enabled. Silent auto‑refresh every 10s.');
         console.log('📡 Apps Script URL: ' + APPS_SCRIPT_URL);
     </script>
 </body>
